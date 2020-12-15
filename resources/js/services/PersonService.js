@@ -1,5 +1,5 @@
 export default {
     getPersons() {
-        return axios.post('/person/getAll');
+        return axios.get('/person/getAll');
     }
 }
