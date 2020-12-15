@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Person;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,5 +15,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call('UsersTableSeeder');
+        Person::factory()
+            ->times(30)
+            ->create();
     }
 }

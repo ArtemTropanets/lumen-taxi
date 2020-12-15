@@ -2,6 +2,8 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use \Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -13,6 +15,16 @@
 |
 */
 
-$router->get('/', function () use ($router) {
+$router->get('/{any:.*}', function () {
     return view('app');
 });
+
+$router->group(['prefix' => 'person'], function () use ($router) {
+    $router->post('getAll',  [
+        'as' => 'getPersons',
+        'uses' => 'PersonController@getAll'
+    ]);
+});
+
+
+
