@@ -1,8 +1,9 @@
 <template>
     <div>
-        <nav class="navbar navbar-light bg-light">
-            <div class="container">ololo</div>
-        </nav>
+        <Loader/>
+
+        <NavBar/>
+
         <div class="container">
             <router-view/>
         </div>
@@ -10,7 +11,11 @@
 </template>
 
 <script>
+import Loader from "./components/Loader";
+import NavBar from "./components/NavBar";
+
 export default {
-    name: "App"
+    name: "App",
+    components: {NavBar, Loader}
 }
 </script>

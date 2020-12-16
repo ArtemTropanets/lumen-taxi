@@ -8,7 +8,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'daily-address-list',
+            name: 'home',
             component: () => import('./views/DailyAddressList'),
         },
 
@@ -16,7 +16,8 @@ export default new Router({
 
 
         {
-            path: '*',
+            path: '/kek',
+            name: 'kek',
             component: () => import('./views/NotFoundComponent'),
         },
     ]

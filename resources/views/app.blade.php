@@ -8,7 +8,7 @@
     <title>Taxi</title>
     <link rel="stylesheet" href="/app.css">
 </head>
-<body>
+<body style="padding-top: 60px;">
     <div id="app"></div>
     <script src="/app.js"></script>
 </body>
