@@ -8,9 +8,9 @@
                     class="nav-item"
                 >
                     <router-link
-                        :to="{name: page.pathName}"
+                        :to="{name: page.routeName}"
                         class="nav-link"
-                        :class="{active: page.pathName === currentPathName}"
+                        :class="{active: page.routeName === currentRouteName}"
                     >{{ page.text }}</router-link>
                 </li>
             </ul>
@@ -25,19 +25,19 @@ export default {
         return {
             pages: [
                 {
-                    pathName: 'home',
-                    text: 'Домой',
+                    routeName: 'home',
+                    text: 'Адреса',
                 },
                 {
-                    pathName: 'kek',
-                    text: 'kek',
+                    routeName: 'editRoutes',
+                    text: 'Маршруты',
                 }
             ],
         };
     },
 
     computed: {
-        currentPathName() {
+        currentRouteName() {
             return this.$route.name;
         }
     }

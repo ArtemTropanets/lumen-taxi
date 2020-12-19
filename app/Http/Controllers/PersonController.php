@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Person;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class PersonController extends Controller
 {
@@ -27,5 +29,17 @@ class PersonController extends Controller
     public function create()
     {
 
+    }
+
+    public function saveTodayAddresses(Request $request)
+    {
+        Person::where('id', $request->person_id)
+            ->update([
+                'morning_address' => $request->morning_address,
+                'evening_address' => $request->evening_address,
+                'address_update_date' => Carbon::now(),
+            ]);
+
+        return ['status' => 'success'];
     }
 }

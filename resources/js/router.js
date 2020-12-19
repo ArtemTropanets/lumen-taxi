@@ -12,12 +12,17 @@ export default new Router({
             component: () => import('./views/DailyAddressList'),
         },
 
+        {
+            path: '/editRoutes',
+            name: 'editRoutes',
+            component: () => import('./views/EditRoutes'),
+        },
+
 
 
 
         {
-            path: '/kek',
-            name: 'kek',
+            path: '*',
             component: () => import('./views/NotFoundComponent'),
         },
     ]

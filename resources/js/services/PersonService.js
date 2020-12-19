@@ -1,5 +1,5 @@
 export default {
-    getPersons() {
-        return axios.get('/person/getAll');
-    }
+    getPersons: () => axios.get('/person/getAll'),
+
+    saveTodayAddresses: (data) => axios.post('/person/saveTodayAddresses', data),
 }

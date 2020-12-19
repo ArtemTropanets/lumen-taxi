@@ -17,7 +17,11 @@ class CreatePersonsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
-            $table->string('default_address');
+            $table->string('morning_address');
+            $table->string('evening_address');
+            $table->date('address_update_date');
+            $table->string('default_morning_address');
+            $table->string('default_evening_address');
             $table->timestamps();
         });
     }

@@ -20,6 +20,13 @@ $router->group(['prefix' => 'person'], function () use ($router) {
         'as' => 'getPersons',
         'uses' => 'PersonController@getAll',
     ]);
+
+    $router->post('saveTodayAddresses',  [
+        'as' => 'saveTodayAddresses',
+        'uses' => 'PersonController@saveTodayAddresses',
+    ]);
+
+
 });
 
 $router->get('/{any:.*}', function () {
