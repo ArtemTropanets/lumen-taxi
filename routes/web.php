@@ -15,7 +15,6 @@
 
 $router->group(['prefix' => 'person'], function () use ($router) {
     $router->get('getAll',  [
-        'middleware' => 'only_ajax',
         'as' => 'getPersons',
         'uses' => 'PersonController@getAll',
     ]);
@@ -29,7 +28,6 @@ $router->group(['prefix' => 'person'], function () use ($router) {
 
 $router->group(['prefix' => 'route'], function () use ($router) {
     $router->get('getRoutesForEdit',  [
-        'middleware' => 'only_ajax',
         'as' => 'getRoutesForEdit',
         'uses' => 'RouteController@getRoutesForEdit',
     ]);

@@ -47,6 +47,8 @@
 
 <script>
 import PersonService from "../services/PersonService";
+import {toLocalIsoString} from "../services/helpers";
+
 export default {
     name: "DailyAddressList",
 
@@ -79,7 +81,7 @@ export default {
         },
 
         updateTodayIsoDate() {
-            this.todayIsoDate = new Date().toISOString().slice(0, 10);
+            this.todayIsoDate = toLocalIsoString(new Date());
         },
 
         saveTodayAddresses(person) {

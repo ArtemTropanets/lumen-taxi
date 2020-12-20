@@ -3,11 +3,23 @@
         <div class="col-6">
             <EditRoutesGroup
                 title="Вечер"
+                type="morning"
+                :routes="morningRoutes"
+                :noRoutePersonsProp="noRouteMorningPersons"
+                @updateNoRoutePersons="updateNoRoutePersons"
+                @add-route="addRoute"
+                @delete-route="deleteRoute"
             />
         </div>
         <div class="col-6">
             <EditRoutesGroup
                 title="Утро"
+                type="evening"
+                :routes="eveningRoutes"
+                :noRoutePersonsProp="noRouteEveningPersons"
+                @updateNoRoutePersons="updateNoRoutePersons"
+                @add-route="addRoute"
+                @delete-route="deleteRoute"
             />
         </div>
     </div>
@@ -16,6 +28,7 @@
 <script>
 import RouteService from "../services/RouteService";
 import EditRoutesGroup from "../components/EditRoutesGroup";
+import {capitalizeFirstLetter} from "../services/helpers";
 
 export default {
     name: "EditRoutes",
@@ -45,6 +58,20 @@ export default {
                     alert('Error');
                 })
                 .finally(() => this.$eventBus.$emit('show-loader', false));
+        },
+
+        updateNoRoutePersons(newVal, type) {
+            this[`noRoute${capitalizeFirstLetter(type)}Persons`] = newVal;
+        },
+
+        addRoute(type) {
+            this[`${type}Routes`].push({
+                persons: [],
+            });
+        },
+
+        deleteRoute(type, index) {
+            this[`${type}Routes`].splice(index, 1);
         }
     },
 

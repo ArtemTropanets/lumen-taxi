@@ -13,7 +13,7 @@ export default new Router({
         },
 
         {
-            path: '/editRoutes',
+            path: '/edit-routes',
             name: 'editRoutes',
             component: () => import('./views/EditRoutes'),
         },
