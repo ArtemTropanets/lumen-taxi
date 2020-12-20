@@ -13,7 +13,6 @@
 |
 */
 
-
 $router->group(['prefix' => 'person'], function () use ($router) {
     $router->get('getAll',  [
         'middleware' => 'only_ajax',
@@ -25,9 +24,17 @@ $router->group(['prefix' => 'person'], function () use ($router) {
         'as' => 'saveTodayAddresses',
         'uses' => 'PersonController@saveTodayAddresses',
     ]);
-
-
 });
+
+
+$router->group(['prefix' => 'route'], function () use ($router) {
+    $router->get('getRoutesForEdit',  [
+        'middleware' => 'only_ajax',
+        'as' => 'getRoutesForEdit',
+        'uses' => 'RouteController@getRoutesForEdit',
+    ]);
+});
+
 
 $router->get('/{any:.*}', function () {
     return view('app');

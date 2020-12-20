@@ -35,8 +35,8 @@ class PersonController extends Controller
     {
         Person::where('id', $request->person_id)
             ->update([
-                'morning_address' => $request->morning_address,
-                'evening_address' => $request->evening_address,
+                'morning_address' => $request->morning_address ? $request->morning_address : null,
+                'evening_address' => $request->evening_address ? $request->evening_address : null,
                 'address_update_date' => Carbon::now(),
             ]);
 

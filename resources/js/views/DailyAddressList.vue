@@ -5,8 +5,8 @@
                 <thead>
                 <tr>
                     <th class="text-center">Сотрудник</th>
-                    <th class="col-4 text-center">Адрес утро</th>
                     <th class="col-4 text-center">Адрес вечер</th>
+                    <th class="col-4 text-center">Адрес утро</th>
                     <th class="col-1"></th>
                 </tr>
                 </thead>
@@ -20,14 +20,14 @@
                     <td class="text-center">{{ person.name }}</td>
                     <td>
                         <input
-                            v-model="person.morning_address"
+                            v-model="person.evening_address"
                             type="search"
                             class="form-control"
                         >
                     </td>
                     <td>
                         <input
-                            v-model="person.evening_address"
+                            v-model="person.morning_address"
                             type="search"
                             class="form-control"
                         >

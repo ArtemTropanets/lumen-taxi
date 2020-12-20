@@ -16,12 +16,12 @@ class CreatePersonsTable extends Migration
         Schema::create('persons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('phone');
-            $table->string('morning_address');
-            $table->string('evening_address');
-            $table->date('address_update_date');
-            $table->string('default_morning_address');
-            $table->string('default_evening_address');
+            $table->string('phone')->nullable();
+            $table->string('morning_address')->nullable();
+            $table->string('evening_address')->nullable();
+            $table->date('address_update_date')->nullable();
+            $table->string('default_morning_address')->nullable();
+            $table->string('default_evening_address')->nullable();
             $table->timestamps();
         });
     }

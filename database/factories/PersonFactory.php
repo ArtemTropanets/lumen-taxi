@@ -26,9 +26,9 @@ class PersonFactory extends Factory
         return [
             'name' => $this->faker->name,
             'phone' => $this->faker->phoneNumber,
-            'morning_address' => $this->faker->streetAddress,
-            'evening_address' => $this->faker->streetAddress,
-            'address_update_date' => $now,
+//            'morning_address' => $this->faker->streetAddress,
+//            'evening_address' => $this->faker->streetAddress,
+//            'address_update_date' => $now,
             'default_morning_address' => $this->faker->streetAddress,
             'default_evening_address' => $this->faker->streetAddress,
             'created_at' => $now,
