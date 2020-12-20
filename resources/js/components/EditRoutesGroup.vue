@@ -34,7 +34,7 @@
             v-for="(route, index) in routes"
             :key="route.id"
             class="mt-2 pb-1 rounded-2 overflow-hidden"
-            style="border: 1px solid #a3a3a3"
+            style="border: 1px solid #bdbdbd"
         >
             <div class="position-relative pt-2 pb-2 bg-light"
                  style="height: 40px; border-bottom: 1px solid lightgrey;"
