@@ -11,9 +11,9 @@
             <div class="col-6">
                 <EditRoutesGroup
                     title="Вечер"
-                    type="morning"
-                    :routes="morningRoutes"
-                    :noRoutePersonsProp="noRouteMorningPersons"
+                    type="evening"
+                    :routes="eveningRoutes"
+                    :noRoutePersonsProp="noRouteEveningPersons"
                     @updateNoRoutePersons="updateNoRoutePersons"
                     @add-route="addRoute"
                     @delete-route="deleteRoute"
@@ -22,9 +22,9 @@
             <div class="col-6">
                 <EditRoutesGroup
                     title="Утро"
-                    type="evening"
-                    :routes="eveningRoutes"
-                    :noRoutePersonsProp="noRouteEveningPersons"
+                    type="morning"
+                    :routes="morningRoutes"
+                    :noRoutePersonsProp="noRouteMorningPersons"
                     @updateNoRoutePersons="updateNoRoutePersons"
                     @add-route="addRoute"
                     @delete-route="deleteRoute"
@@ -44,10 +44,10 @@ export default {
     components: {EditRoutesGroup},
     data() {
         return {
-            morningRoutes: [],
             eveningRoutes: [],
-            noRouteMorningPersons: [],
+            morningRoutes: [],
             noRouteEveningPersons: [],
+            noRouteMorningPersons: [],
         };
     },
 
@@ -57,10 +57,10 @@ export default {
             this.$eventBus.$emit('show-loader');
             RouteService.getRoutesForEdit()
                 .then(response => {
-                    this.morningRoutes = response.data.morning_routes;
                     this.eveningRoutes = response.data.evening_routes;
-                    this.noRouteMorningPersons = response.data.no_route_morning_persons;
+                    this.morningRoutes = response.data.morning_routes;
                     this.noRouteEveningPersons = response.data.no_route_evening_persons;
+                    this.noRouteMorningPersons = response.data.no_route_morning_persons;
                 })
                 .catch(error => {
                     console.dir(error);
@@ -78,6 +78,8 @@ export default {
             const lastRouteId = this[`${type}Routes`][this[`${type}Routes`].length - 1]?.id;
             this[`${type}Routes`].push({
                 id: lastRouteId ? lastRouteId + 1 : 1,
+                type: (type === 'evening') ? 'evening' : 'morning',
+                scheduled_at: (type === 'evening') ? '18:10' : '08:30',
                 persons: [],
             });
         },
@@ -87,7 +89,26 @@ export default {
         },
 
         saveRoutes() {
+            this.$eventBus.$emit('show-loader');
+            RouteService.saveRoutes({
+                evening_routes: this.eveningRoutes,
+                morning_routes: this.morningRoutes,
+            })
+                .then(response => {
+                    if (response.data.status !== 'success') {
+                        throw new Error('Unexpected response');
+                    }
 
+                    this.$eventBus.$emit('show-success-toast');
+                })
+                .catch(error => {
+                    console.dir(error);
+                    alert('Error');
+                })
+                .finally(() => {
+                    this.$eventBus.$emit('show-loader', false);
+                    this.getRoutesForEdit();
+                });
         },
     },
 

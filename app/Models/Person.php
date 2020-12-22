@@ -24,7 +24,7 @@ class Person extends Model
         return self::whereNotNull('morning_address')
             ->where('address_update_date', Carbon::today())
             ->whereDoesntHave('routes', function ($routes) {
-                $routes->where('is_morning', 1);
+                $routes->where('type', 'morning');
             })
             ->get();
     }
@@ -34,7 +34,7 @@ class Person extends Model
         return self::whereNotNull('evening_address')
             ->where('address_update_date', Carbon::today())
             ->whereDoesntHave('routes', function ($routes) {
-                $routes->where('is_evening', 1);
+                $routes->where('type', 'evening');
             })
             ->get();
     }

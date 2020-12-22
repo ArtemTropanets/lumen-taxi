@@ -15,9 +15,8 @@ class CreateRoutesTable extends Migration
     {
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_morning')->default(0);
-            $table->boolean('is_evening')->default(0);
-            $table->timestamp('scheduled_at');
+            $table->string('type', 7);
+            $table->time('scheduled_at');
             $table->timestamps();
         });
     }

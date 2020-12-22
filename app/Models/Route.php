@@ -9,24 +9,32 @@ use Illuminate\Database\Eloquent\Model;
 
 class Route extends Model
 {
+    protected $guarded = ['id'];
+
     public function persons()
     {
         return $this->belongsToMany(Person::class, 'route_person');
     }
 
-    public static function getMorningRoutes()
+    public static function getTodayMorningRoutes()
     {
-        return self::where('is_morning', 1)
+        return self::where('type', 'morning')
             ->with('persons')
-            ->whereDate('created_at', Carbon::today())
+            ->whereHas('persons', function ($persons) {
+                $persons->whereNotNull('morning_address')
+                    ->where('address_update_date', Carbon::today());
+            })
             ->get();
     }
 
-    public static function getEveningRoutes()
+    public static function getTodayEveningRoutes()
     {
-        return self::where('is_evening', 1)
+        return self::where('type', 'evening')
             ->with('persons')
-            ->whereDate('created_at', Carbon::today())
+            ->whereHas('persons', function ($persons) {
+                $persons->whereNotNull('evening_address')
+                    ->where('address_update_date', Carbon::today());
+            })
             ->get();
     }
 }

@@ -33,19 +33,32 @@
             <div
                 v-for="(route, index) in routes"
                 :key="route.id"
-                class="mt-2 pb-1 rounded-2 overflow-hidden"
+                class="mt-2 pb-1 rounded-2"
                 style="border: 1px solid #bdbdbd;"
             >
-                <div class="position-relative pt-2 pb-2 bg-light"
-                     style="border-bottom: 1px solid lightgrey;"
+                <div class="container-fluid pt-2 pb-2 bg-light"
+                     style="border-bottom: 1px solid lightgrey;
+                         border-top-left-radius: inherit;
+                         border-top-right-radius: inherit;"
                 >
-                    <div class="fw-bold text-center">Маршрут {{ index + 1 }}</div>
-                    <button
-                        v-show="!route.persons.length"
-                        class="position-absolute top-50 end-0 btn btn-sm btn-danger"
-                        style="transform: translate(-5px, -50%)"
-                        @click="$emit('delete-route', type, index)"
-                    >Удалить</button>
+                    <div class="row">
+                        <div class="col-4 align-self-center">
+                            <vue-timepicker
+                                v-model="route.scheduled_at"
+                                manual-input
+                            ></vue-timepicker>
+                        </div>
+                        <div class="col-4 align-self-center">
+                            <div class="fw-bold text-center">Маршрут {{ index + 1 }}</div>
+                        </div>
+                        <div class="col-4 align-self-center text-end">
+                            <button
+                                v-show="!route.persons.length"
+                                class="btn btn-sm btn-danger"
+                                @click="$emit('delete-route', type, index)"
+                            >Удалить</button>
+                        </div>
+                    </div>
                 </div>
                 <draggable
                     tag="table"
@@ -80,6 +93,7 @@
 </template>
 <script>
 import draggable from 'vuedraggable';
+import VueTimepicker from 'vue2-timepicker/src/vue-timepicker';
 
 export default {
     name: 'EditRoutesGroup',
@@ -87,6 +101,7 @@ export default {
 
     components: {
         draggable,
+        VueTimepicker,
     },
 
 

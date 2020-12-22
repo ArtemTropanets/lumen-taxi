@@ -31,6 +31,11 @@ $router->group(['prefix' => 'route'], function () use ($router) {
         'as' => 'getRoutesForEdit',
         'uses' => 'RouteController@getRoutesForEdit',
     ]);
+
+    $router->post('saveRoutes',  [
+        'as' => 'saveRoutes',
+        'uses' => 'RouteController@saveRoutes',
+    ]);
 });
 
 
