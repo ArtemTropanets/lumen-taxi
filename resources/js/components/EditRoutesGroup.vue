@@ -32,7 +32,7 @@
         <transition-group name="fade">
             <div
                 v-for="(route, index) in routes"
-                :key="route.id"
+                :key="index"
                 class="mt-2 pb-1 rounded-2"
                 style="border: 1px solid #bdbdbd;"
             >

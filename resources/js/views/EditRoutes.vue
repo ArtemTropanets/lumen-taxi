@@ -74,10 +74,7 @@ export default {
         },
 
         addRoute(type) {
-            // unique id required for transition group
-            const lastRouteId = this[`${type}Routes`][this[`${type}Routes`].length - 1]?.id;
             this[`${type}Routes`].push({
-                id: lastRouteId ? lastRouteId + 1 : 1,
                 type: (type === 'evening') ? 'evening' : 'morning',
                 scheduled_at: (type === 'evening') ? '18:10' : '08:30',
                 persons: [],
