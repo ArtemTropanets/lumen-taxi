@@ -1,26 +1,35 @@
 <template>
-    <div class="row">
-        <div class="col-6">
-            <EditRoutesGroup
-                title="Вечер"
-                type="morning"
-                :routes="morningRoutes"
-                :noRoutePersonsProp="noRouteMorningPersons"
-                @updateNoRoutePersons="updateNoRoutePersons"
-                @add-route="addRoute"
-                @delete-route="deleteRoute"
-            />
+    <div>
+        <div class="d-flex justify-content-center position-relative">
+            <button
+                class="btn btn-success position-absolute"
+                style="top: 5px;"
+                @click="saveRoutes"
+            >Сохранить маршруты</button>
         </div>
-        <div class="col-6">
-            <EditRoutesGroup
-                title="Утро"
-                type="evening"
-                :routes="eveningRoutes"
-                :noRoutePersonsProp="noRouteEveningPersons"
-                @updateNoRoutePersons="updateNoRoutePersons"
-                @add-route="addRoute"
-                @delete-route="deleteRoute"
-            />
+        <div class="row">
+            <div class="col-6">
+                <EditRoutesGroup
+                    title="Вечер"
+                    type="morning"
+                    :routes="morningRoutes"
+                    :noRoutePersonsProp="noRouteMorningPersons"
+                    @updateNoRoutePersons="updateNoRoutePersons"
+                    @add-route="addRoute"
+                    @delete-route="deleteRoute"
+                />
+            </div>
+            <div class="col-6">
+                <EditRoutesGroup
+                    title="Утро"
+                    type="evening"
+                    :routes="eveningRoutes"
+                    :noRoutePersonsProp="noRouteEveningPersons"
+                    @updateNoRoutePersons="updateNoRoutePersons"
+                    @add-route="addRoute"
+                    @delete-route="deleteRoute"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -65,14 +74,21 @@ export default {
         },
 
         addRoute(type) {
+            // unique id required for transition group
+            const lastRouteId = this[`${type}Routes`][this[`${type}Routes`].length - 1]?.id;
             this[`${type}Routes`].push({
+                id: lastRouteId ? lastRouteId + 1 : 1,
                 persons: [],
             });
         },
 
         deleteRoute(type, index) {
             this[`${type}Routes`].splice(index, 1);
-        }
+        },
+
+        saveRoutes() {
+
+        },
     },
 
 

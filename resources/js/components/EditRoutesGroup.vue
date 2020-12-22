@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h4 class="text-center">{{ title }}</h4>
+        <h4 class="text-center mt-1 mb-3">{{ title }}</h4>
 
         <div v-if="noRoutePersons.length"
              class="pb-1 rounded-2 overflow-hidden"
@@ -29,42 +29,45 @@
             </draggable>
         </div>
 
-
-        <div
-            v-for="(route, index) in routes"
-            :key="route.id"
-            class="mt-2 pb-1 rounded-2 overflow-hidden"
-            style="border: 1px solid #bdbdbd"
-        >
-            <div class="position-relative pt-2 pb-2 bg-light"
-                 style="height: 40px; border-bottom: 1px solid lightgrey;"
+        <transition-group name="fade">
+            <div
+                v-for="(route, index) in routes"
+                :key="route.id"
+                class="mt-2 pb-1 rounded-2 overflow-hidden"
+                style="border: 1px solid #bdbdbd;"
             >
-                <div class="fw-bold text-center">Маршрут {{ index + 1 }}</div>
-                <button
-                    v-show="!route.persons.length"
-                    class="position-absolute top-50 end-0 btn btn-sm btn-danger"
-                    style="transform: translate(-5px, -50%)"
-                    @click="$emit('delete-route', type, index)"
-                >Удалить</button>
-            </div>
-            <draggable
-                tag="table"
-                v-model="route.persons"
-                v-bind="dragOptions"
-                :animation="200"
-                ghost-class="moving-person-row"
-                class="route-table"
-            >
-                <tr
-                    v-for="person in route.persons"
-                    :key="person.id"
-                    class="route-table__row"
+                <div class="position-relative pt-2 pb-2 bg-light"
+                     style="border-bottom: 1px solid lightgrey;"
                 >
-                    <td class="col-6 p-1">{{ person.name }}</td>
-                    <td class="col-6 p-1">{{ person[`${type}_address`] }}</td>
-                </tr>
-            </draggable>
-        </div>
+                    <div class="fw-bold text-center">Маршрут {{ index + 1 }}</div>
+                    <button
+                        v-show="!route.persons.length"
+                        class="position-absolute top-50 end-0 btn btn-sm btn-danger"
+                        style="transform: translate(-5px, -50%)"
+                        @click="$emit('delete-route', type, index)"
+                    >Удалить</button>
+                </div>
+                <draggable
+                    tag="table"
+                    v-model="route.persons"
+                    v-bind="dragOptions"
+                    :animation="200"
+                    ghost-class="moving-person-row"
+                    class="route-table"
+                    style="position: relative;z-index: 1"
+                >
+                    <tr
+                        v-for="person in route.persons"
+                        :key="person.id"
+                        class="route-table__row"
+                    >
+                        <td class="col-6 p-1">{{ person.name }}</td>
+                        <td class="col-6 p-1">{{ person[`${type}_address`] }}</td>
+                    </tr>
+                </draggable>
+            </div>
+        </transition-group>
+
 
         <div class="d-flex justify-content-center mt-2">
             <button
@@ -121,11 +124,13 @@ export default {
 .route-table {
     width: 100%;
     min-height: 30px;
+    margin-top: -1px;
 
     &__row {
         cursor: move;
 
         &:not(:last-child) td {
+            border-top: 1px solid lightgrey;
             border-bottom: 1px solid lightgrey;
         }
     }
@@ -134,5 +139,12 @@ export default {
 .moving-person-row {
     background: #F7FAFC;
     outline: 1px solid #4299e1;
+}
+
+.fade-enter-active {
+    transition: opacity .5s;
+}
+.fade-enter {
+    opacity: 0;
 }
 </style>
