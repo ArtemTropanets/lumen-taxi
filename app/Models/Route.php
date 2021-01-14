@@ -19,7 +19,12 @@ class Route extends Model
     public static function getTodayMorningRoutes()
     {
         return self::where('type', 'morning')
-            ->with('persons')
+            ->with([
+                'persons' => function ($persons) {
+                    $persons->whereNotNull('morning_address')
+                        ->where('address_update_date', Carbon::today());
+                },
+            ])
             ->whereHas('persons', function ($persons) {
                 $persons->whereNotNull('morning_address')
                     ->where('address_update_date', Carbon::today());
@@ -30,7 +35,12 @@ class Route extends Model
     public static function getTodayEveningRoutes()
     {
         return self::where('type', 'evening')
-            ->with('persons')
+            ->with([
+                'persons' => function ($persons) {
+                    $persons->whereNotNull('evening_address')
+                        ->where('address_update_date', Carbon::today());
+                },
+            ])
             ->whereHas('persons', function ($persons) {
                 $persons->whereNotNull('evening_address')
                     ->where('address_update_date', Carbon::today());

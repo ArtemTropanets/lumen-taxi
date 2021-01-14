@@ -19,18 +19,46 @@
                 >
                     <td class="text-center">{{ person.name }}</td>
                     <td>
-                        <input
-                            v-model="person.evening_address"
-                            type="search"
-                            class="form-control"
-                        >
+                        <div class="input-group">
+                            <AddressListInputGroupBtn
+                                :isHoveringObj="isHoveringObj.evening_home"
+                                :personId="person.id"
+                                btnType="home"
+                                @click="setHomeAddress(person, 'evening')"
+                            />
+                            <input
+                                v-model="person.evening_address"
+                                type="text"
+                                class="form-control"
+                            >
+                            <AddressListInputGroupBtn
+                                :isHoveringObj="isHoveringObj.evening_delete"
+                                :personId="person.id"
+                                btnType="delete"
+                                @click="deleteAddress(person, 'evening')"
+                            />
+                        </div>
                     </td>
                     <td>
-                        <input
-                            v-model="person.morning_address"
-                            type="search"
-                            class="form-control"
-                        >
+                        <div class="input-group">
+                            <AddressListInputGroupBtn
+                                :isHoveringObj="isHoveringObj.morning_home"
+                                :personId="person.id"
+                                btnType="home"
+                                @click="setHomeAddress(person, 'morning')"
+                            />
+                            <input
+                                v-model="person.morning_address"
+                                type="text"
+                                class="form-control"
+                            >
+                            <AddressListInputGroupBtn
+                                :isHoveringObj="isHoveringObj.morning_delete"
+                                :personId="person.id"
+                                btnType="delete"
+                                @click="deleteAddress(person, 'morning')"
+                            />
+                        </div>
                     </td>
                     <td>
                         <button
@@ -48,14 +76,21 @@
 <script>
 import PersonService from "../services/PersonService";
 import {toLocalIsoString} from "../services/helpers";
+import AddressListInputGroupBtn from "../components/AddressListInputGroupBtn";
 
 export default {
     name: "DailyAddressList",
-
+    components: {AddressListInputGroupBtn},
     data() {
         return {
             persons: null,
             todayIsoDate: null,
+            isHoveringObj: {
+                'evening_delete': {},
+                'evening_home': {},
+                'morning_delete': {},
+                'morning_home': {},
+            },
         }
     },
 
@@ -82,6 +117,14 @@ export default {
 
         updateTodayIsoDate() {
             this.todayIsoDate = toLocalIsoString(new Date());
+        },
+
+        setHomeAddress(person, type) {
+            person[`${type}_address`] = person[`default_${type}_address`];
+        },
+
+        deleteAddress(person, type) {
+            person[`${type}_address`] = '';
         },
 
         saveTodayAddresses(person) {
