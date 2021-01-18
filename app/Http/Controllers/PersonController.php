@@ -18,7 +18,7 @@ class PersonController extends Controller
         //
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         return [
             'persons' => Person::orderBy('name')
@@ -26,12 +26,19 @@ class PersonController extends Controller
         ];
     }
 
-    public function create()
+    public function create(Request $request)
     {
+        Person::create([
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'evening_default_address' => $request->evening_default_address,
+            'morning_default_address' => $request->morning_default_address,
+        ]);
 
+        return ['status' => 'success'];
     }
 
-    public function saveTodayAddresses(Request $request)
+    public function saveTodayAddresses(Request $request): array
     {
         Person::where('id', $request->person_id)
             ->update([

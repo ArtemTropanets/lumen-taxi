@@ -76,10 +76,17 @@ $app->configure('app');
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
+$app->middleware([
+    LumenMiddlewareTrimOrConvertString\TrimStrings::class,
+    LumenMiddlewareTrimOrConvertString\ConvertEmptyStringsToNull::class,
+    //your middleware...
+]);
+
  $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
-    'only_ajax' => \App\Http\Middleware\OnlyAjax::class,
  ]);
+
+
 
 /*
 |--------------------------------------------------------------------------

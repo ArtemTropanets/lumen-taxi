@@ -19,6 +19,11 @@ $router->group(['prefix' => 'person'], function () use ($router) {
         'uses' => 'PersonController@getAll',
     ]);
 
+    $router->post('create',  [
+        'as' => 'create',
+        'uses' => 'PersonController@create',
+    ]);
+
     $router->post('saveTodayAddresses',  [
         'as' => 'saveTodayAddresses',
         'uses' => 'PersonController@saveTodayAddresses',

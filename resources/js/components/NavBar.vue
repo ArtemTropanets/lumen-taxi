@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar navbar-light bg-light fixed-top shadow-sm">
-        <div class="container">
+        <div class="container d-flex justify-content-between">
             <ul class="nav nav-pills">
                 <li
                     v-for="(page, index) in pages"
@@ -14,6 +14,11 @@
                     >{{ page.text }}</router-link>
                 </li>
             </ul>
+
+            <button
+                class="btn btn-primary"
+                @click="$eventBus.$emit('show-create-edit-person-modal', 'create')"
+            >Добавить сотрудника</button>
         </div>
     </nav>
 </template>

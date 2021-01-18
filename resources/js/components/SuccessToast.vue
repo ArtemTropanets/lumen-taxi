@@ -3,13 +3,13 @@
          style="z-index: 10000; left: 50%; transform: translateX(-50%)"
     >
         <div
-            class="success-toast toast d-flex align-items-center position-absolute top-0 end-0 text-white bg-success border-0"
+            class="success-toast toast d-flex align-items-center position-absolute top-0 end-50 text-white bg-success border-0"
             role="alert"
             aria-live="assertive"
             aria-atomic="true"
-            style="z-index: 10000; margin-top: 5px; margin-right: 20px;"
+            style="z-index: 10000; margin-top: 5px; margin-right: 20px; transform: translateX(50%)"
         >
-            <div class="toast-body">Success</div>
+            <div class="toast-body">Успешно</div>
         </div>
     </div>
 </template>

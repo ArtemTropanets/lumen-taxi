@@ -14,6 +14,8 @@ class Person extends Model
 
     protected $table = 'persons';
 
+    protected $guarded = ['id'];
+
     public function routes()
     {
         return $this->belongsToMany(Route::class, 'route_person');

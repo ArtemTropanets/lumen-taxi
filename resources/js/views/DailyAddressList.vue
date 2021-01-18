@@ -5,8 +5,12 @@
                 <thead>
                 <tr>
                     <th class="text-center">Сотрудник</th>
-                    <th class="col-4 text-center">Адрес вечер</th>
-                    <th class="col-4 text-center">Адрес утро</th>
+                    <th class="col-4 text-center"
+                        style="z-index: 1;"
+                    >Адрес вечер</th>
+                    <th class="col-4 text-center"
+                        style="z-index: 1;"
+                    >Адрес утро</th>
                     <th class="col-1"></th>
                 </tr>
                 </thead>
@@ -154,6 +158,7 @@ export default {
 
     created() {
         this.updatePersonsTable();
+        this.$eventBus.$on('load-persons', this.updatePersonsTable);
     }
 }
 </script>
