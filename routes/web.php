@@ -14,17 +14,32 @@
 */
 
 $router->group(['prefix' => 'person'], function () use ($router) {
-    $router->get('getAll',  [
+    $router->get('getAll', [
         'as' => 'getPersons',
         'uses' => 'PersonController@getAll',
     ]);
 
-    $router->post('create',  [
+    $router->post('create', [
         'as' => 'create',
         'uses' => 'PersonController@create',
     ]);
 
-    $router->post('saveTodayAddresses',  [
+    $router->post('edit', [
+        'as' => 'edit',
+        'uses' => 'PersonController@edit',
+    ]);
+
+    $router->delete('softDelete/{id}', [
+        'as' => 'softDelete',
+        'uses' => 'PersonController@softDelete'
+    ]);
+
+    $router->post('restore', [
+        'as' => 'restore',
+        'uses' => 'PersonController@restore',
+    ]);
+
+    $router->post('saveTodayAddresses', [
         'as' => 'saveTodayAddresses',
         'uses' => 'PersonController@saveTodayAddresses',
     ]);
@@ -32,12 +47,12 @@ $router->group(['prefix' => 'person'], function () use ($router) {
 
 
 $router->group(['prefix' => 'route'], function () use ($router) {
-    $router->get('getRoutesForEdit',  [
+    $router->get('getRoutesForEdit', [
         'as' => 'getRoutesForEdit',
         'uses' => 'RouteController@getRoutesForEdit',
     ]);
 
-    $router->post('saveRoutes',  [
+    $router->post('saveRoutes', [
         'as' => 'saveRoutes',
         'uses' => 'RouteController@saveRoutes',
     ]);

@@ -43,6 +43,6 @@ class RouteController extends Controller
         $this->service->saveRoutes($request->evening_routes);
         $this->service->saveRoutes($request->morning_routes);
 
-        return ['status' => 'success'];
+        return ['status' => 'ok'];
     }
 }

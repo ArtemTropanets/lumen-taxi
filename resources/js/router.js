@@ -18,6 +18,12 @@ export default new Router({
             component: () => import('./views/EditRoutes'),
         },
 
+        {
+            path: '/all-persons',
+            name: 'allPersons',
+            component: () => import('./views/AllPersons'),
+        },
+
 
 
 

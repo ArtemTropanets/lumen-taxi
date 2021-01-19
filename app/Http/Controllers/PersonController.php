@@ -26,16 +26,44 @@ class PersonController extends Controller
         ];
     }
 
-    public function create(Request $request)
+    public function create(Request $request): array
     {
         Person::create([
             'name' => $request->name,
             'phone' => $request->phone,
-            'evening_default_address' => $request->evening_default_address,
-            'morning_default_address' => $request->morning_default_address,
+            'default_evening_address' => $request->default_evening_address,
+            'default_morning_address' => $request->default_morning_address,
         ]);
 
-        return ['status' => 'success'];
+        return ['status' => 'ok'];
+    }
+
+    public function edit(Request $request): array
+    {
+        Person::find($request->id)
+            ->update([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'default_evening_address' => $request->default_evening_address,
+                'default_morning_address' => $request->default_morning_address,
+            ]);
+
+        return ['status' => 'ok'];
+    }
+
+    public function softDelete(string $id): array
+    {
+        Person::destroy($id);
+
+        return ['status' => 'ok'];
+    }
+
+    public function restore(Request $request): array
+    {
+        Person::find($request->person_id)
+            ->restore();
+
+        return ['status' => 'ok'];
     }
 
     public function saveTodayAddresses(Request $request): array
@@ -47,6 +75,6 @@ class PersonController extends Controller
                 'address_update_date' => Carbon::now(),
             ]);
 
-        return ['status' => 'success'];
+        return ['status' => 'ok'];
     }
 }

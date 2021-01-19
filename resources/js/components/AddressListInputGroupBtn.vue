@@ -1,15 +1,15 @@
 <template>
     <button
         class="input-group-text"
-        @mouseover="$set(isHoveringObj, personId, true)"
-        @mouseout="isHoveringObj[personId] = false"
+        @mouseover="$set(isHoveringObj, person.id, true)"
+        @mouseout="isHoveringObj[person.id] = false"
         :class="{
-            'btn-secondary': (isHoveringObj[personId] && (btnType === 'home')),
-            'btn-danger': (isHoveringObj[personId] && (btnType === 'delete'))
+            'btn-secondary': (isHoveringObj[person.id] && (btnType === 'home')),
+            'btn-danger': (isHoveringObj[person.id] && (btnType === 'delete'))
         }"
+        :disabled="(btnType === 'home') && !person[`default_${dayTime}_address`]"
         @click="$emit('click')"
     >
-
         <svg v-if="btnType === 'home'" v-once
             xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill"
              viewBox="0 0 16 16">
@@ -30,8 +30,15 @@ export default {
 
     props: {
         isHoveringObj: Object,
-        personId: Number,
+        person: Object,
         btnType: String,
+        dayTime: String,
     }
 }
 </script>
+
+<style>
+    .input-group-text[disabled] {
+        opacity: 0.4;
+    }
+</style>

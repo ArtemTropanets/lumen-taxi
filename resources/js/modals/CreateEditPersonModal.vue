@@ -12,7 +12,7 @@
                         v-model="person.name"
                         label="Имя"
                         id="createPersonModalName"
-                        placeholder="Пупкин"
+                        placeholder="Имя Фамилия"
                     />
 
                     <FormControlInput
@@ -38,7 +38,11 @@
                 <div class="modal-footer">
                     <div class="d-flex justify-content-between">
                         <div>
-
+                            <button
+                                v-show="modalType === 'edit'"
+                                class="btn btn-danger"
+                                @click="deletePerson"
+                            >Удалить сотрудника</button>
                         </div>
 
                         <div>
@@ -91,13 +95,14 @@ export default {
 
 
     methods: {
-        showModal(modalType) {
+        showModal(modalType, person = null) {
             this.modalType = modalType;
             if (this.modalType === 'create') {
                 this.resetCreatePersonObj();
                 this.modal.show();
             } else if (this.modalType === 'edit') {
-
+                this.person = person;
+                this.modal.show();
             }
         },
 
@@ -111,24 +116,23 @@ export default {
         },
 
         saveHandler() {
-            if (this.modalType === 'create') {
-                this.createPerson();
-            } else if (this.modalType === 'edit') {
-
-            }
-        },
-
-        createPerson() {
             if (!this.person.name.trim()) {
-                alert('Человек без имени');
+                alert('Ахтунг, человек без имени');
                 return;
             }
 
             this.$eventBus.$emit('show-loader');
 
-            PersonService.createPerson(this.person)
+            let promise;
+            if (this.modalType === 'create') {
+                promise = PersonService.createPerson(this.person);
+            } else if (this.modalType === 'edit') {
+                promise = PersonService.editPerson(this.person);
+            }
+
+            promise
                 .then(response => {
-                    if (response.data.status !== 'success') {
+                    if (response.data.status !== 'ok') {
                         throw new Error('Unexpected response');
                     }
 
@@ -140,6 +144,37 @@ export default {
                 })
                 .finally(() => {
                     this.$eventBus.$emit('show-loader', false);
+                    this.$eventBus.$emit('show-success-toast');
+                    this.$eventBus.$emit('load-persons');
+                });
+        },
+
+        deletePerson() {
+            const password = window.prompt(
+                `Притормози, если ты действительно хочешь удалить человека по имени ${this.person.name}, тебе придется ввести секретное слово`
+            );
+
+            if (password === null) return;
+            if (password !== 'ololo') {
+                alert('А вот и не угадал :D');
+                return;
+            }
+
+            PersonService.softDeletePerson(this.person.id)
+                .then(response => {
+                    if (response.data.status !== 'ok') {
+                        throw new Error('Unexpected response');
+                    }
+
+                    this.modal.hide();
+                })
+                .catch(error => {
+                    console.dir(error);
+                    alert('Error');
+                })
+                .finally(() => {
+                    this.$eventBus.$emit('show-loader', false);
+                    this.$eventBus.$emit('show-success-toast');
                     this.$eventBus.$emit('load-persons');
                 });
         },

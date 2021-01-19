@@ -15,10 +15,20 @@
                 </li>
             </ul>
 
-            <button
-                class="btn btn-primary"
-                @click="$eventBus.$emit('show-create-edit-person-modal', 'create')"
-            >Добавить сотрудника</button>
+            <ul class="nav nav-pills">
+                <li>
+                    <router-link
+                        :to="{name: 'allPersons'}"
+                        class="nav-link"
+                        :class="{active: 'allPersons' === currentRouteName}"
+                    >Сотрудники</router-link>
+                </li>
+            </ul>
+
+<!--            <button-->
+<!--                class="btn btn-primary"-->
+<!--                @click="$eventBus.$emit('show-create-edit-person-modal', 'create')"-->
+<!--            >Добавить сотрудника</button>-->
         </div>
     </nav>
 </template>
@@ -36,7 +46,7 @@ export default {
                 {
                     routeName: 'editRoutes',
                     text: 'Маршруты',
-                }
+                },
             ],
         };
     },

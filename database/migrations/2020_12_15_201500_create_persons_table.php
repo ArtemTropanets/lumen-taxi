@@ -22,6 +22,7 @@ class CreatePersonsTable extends Migration
             $table->date('address_update_date')->nullable();
             $table->string('default_morning_address')->nullable();
             $table->string('default_evening_address')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

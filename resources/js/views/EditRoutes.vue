@@ -92,7 +92,7 @@ export default {
                 morning_routes: this.morningRoutes,
             })
                 .then(response => {
-                    if (response.data.status !== 'success') {
+                    if (response.data.status !== 'ok') {
                         throw new Error('Unexpected response');
                     }
 
