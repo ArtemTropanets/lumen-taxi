@@ -13,3 +13,5 @@ new Vue({
     router,
     render: h => h(App),
 }).$mount('#app');
+
+import 'leaflet/dist/leaflet.css';

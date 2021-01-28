@@ -10,8 +10,10 @@
         "@popperjs/core": "^2.6.0",
         "axios": "^0.21.1",
         "bootstrap": "^5.0.0-beta1",
+        "leaflet": "^1.7.1",
         "vue": "^2.6.12",
         "vue-router": "^3.4.9",
+        "vue2-leaflet": "^2.6.0",
         "vue2-timepicker": "^1.1.6",
         "vuedraggable": "^2.24.3"
     },
