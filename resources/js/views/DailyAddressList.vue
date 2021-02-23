@@ -1,27 +1,26 @@
 <template>
-    <div>
-        <div class="person-table-container">
-            <table class="person-table">
-                <thead>
-                    <tr>
+    <div class="person-table-container">
+        <table class="person-table">
+            <thead>
+                <tr>
 <!--                        <th></th>-->
-                        <th class="text-center">Сотрудник</th>
-                        <th class="col-4 text-center"
-                            style="z-index: 1;"
-                        >Адрес вечер</th>
-                        <th class="col-4 text-center"
-                            style="z-index: 1;"
-                        >Адрес утро</th>
-                        <th class="col-1"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        v-for="person in persons"
-                        :key="person.id"
-                        class="person-table__row"
-                        :class="{'address-saved-today': isAddressSavedToday(person.address_update_date)}"
-                    >
+                    <th class="text-center">Сотрудник</th>
+                    <th class="col-4 text-center"
+                        style="z-index: 1;"
+                    >Адрес вечер</th>
+                    <th class="col-4 text-center"
+                        style="z-index: 1;"
+                    >Адрес утро</th>
+                    <th class="col-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    v-for="person in persons"
+                    :key="person.id"
+                    class="person-table__row"
+                    :class="{'address-saved-today': isAddressSavedToday(person.address_update_date)}"
+                >
 <!--                        <td>-->
 <!--                            <button-->
 <!--                                class="btn btn-secondary btn-sm text-dark bg-light"-->
@@ -33,61 +32,60 @@
 <!--                                </svg>-->
 <!--                            </button>-->
 <!--                        </td>-->
-                        <td class="text-center">{{ person.name }}</td>
-                        <td>
-                            <div class="input-group">
-                                <AddressListInputGroupBtn
-                                    :isHoveringObj="isHoveringObj.evening_home"
-                                    :person="person"
-                                    btnType="home"
-                                    dayTime="evening"
-                                    @click="setHomeAddress(person, 'evening')"
-                                />
-                                <input
-                                    v-model="person.evening_address"
-                                    type="text"
-                                    class="form-control"
-                                >
-                                <AddressListInputGroupBtn
-                                    :isHoveringObj="isHoveringObj.evening_delete"
-                                    :person="person"
-                                    btnType="delete"
-                                    @click="deleteAddress(person, 'evening')"
-                                />
-                            </div>
-                        </td>
-                        <td>
-                            <div class="input-group">
-                                <AddressListInputGroupBtn
-                                    :isHoveringObj="isHoveringObj.morning_home"
-                                    :person="person"
-                                    btnType="home"
-                                    dayTime="morning"
-                                    @click="setHomeAddress(person, 'morning')"
-                                />
-                                <input
-                                    v-model="person.morning_address"
-                                    type="text"
-                                    class="form-control"
-                                >
-                                <AddressListInputGroupBtn
-                                    :isHoveringObj="isHoveringObj.morning_delete"
-                                    :person="person"
-                                    btnType="delete"
-                                    @click="deleteAddress(person, 'morning')"
-                                />
-                            </div>
-                        </td>
-                        <td>
-                            <button
-                                class="btn btn-success"
-                                @click="saveTodayAddresses(person)"
-                            >Сохранить</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                    <td class="text-center">{{ person.name }}</td>
+                    <td>
+                        <div class="input-group">
+                            <AddressListInputGroupBtn
+                                :isHoveringObj="isHoveringObj.evening_home"
+                                :person="person"
+                                btnType="home"
+                                dayTime="evening"
+                                @click="setHomeAddress(person, 'evening')"
+                            />
+                            <input
+                                v-model="person.evening_address"
+                                type="text"
+                                class="form-control"
+                            >
+                            <AddressListInputGroupBtn
+                                :isHoveringObj="isHoveringObj.evening_delete"
+                                :person="person"
+                                btnType="delete"
+                                @click="deleteAddress(person, 'evening')"
+                            />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <AddressListInputGroupBtn
+                                :isHoveringObj="isHoveringObj.morning_home"
+                                :person="person"
+                                btnType="home"
+                                dayTime="morning"
+                                @click="setHomeAddress(person, 'morning')"
+                            />
+                            <input
+                                v-model="person.morning_address"
+                                type="text"
+                                class="form-control"
+                            >
+                            <AddressListInputGroupBtn
+                                :isHoveringObj="isHoveringObj.morning_delete"
+                                :person="person"
+                                btnType="delete"
+                                @click="deleteAddress(person, 'morning')"
+                            />
+                        </div>
+                    </td>
+                    <td>
+                        <button
+                            class="btn btn-success"
+                            @click="saveTodayAddresses(person)"
+                        >Сохранить</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 

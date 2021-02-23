@@ -15,3 +15,4 @@ new Vue({
 }).$mount('#app');
 
 import 'leaflet/dist/leaflet.css';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
