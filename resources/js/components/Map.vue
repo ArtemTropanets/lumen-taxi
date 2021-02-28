@@ -3,12 +3,8 @@
         <l-map
             ref="map"
             v-if="showMap"
-            :zoom="zoom"
-            :center="center"
             :options="mapOptions"
             style="height: 80%"
-            @update:center="centerUpdate"
-            @update:zoom="zoomUpdate"
         >
             <l-tile-layer
                 :url="url"
@@ -47,11 +43,8 @@ export default {
 
     data() {
         return {
-            zoom: 16,
-            center: L.latLng(46.4314814, 30.7405042),
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             office: L.latLng(46.4314814, 30.7405042),
-            currentZoom: 11.5,
             currentCenter: L.latLng(46.4314814, 30.7405042),
             showParagraph: false,
             mapOptions: {
@@ -60,9 +53,9 @@ export default {
             showMap: false,
 
             addresses: [
-                'Тополева 14',
-                'Академика Королёва 44',
-                'Костанди 203',
+                // 'ЖК Пята перлина',
+                'Тополина 14',
+                'Чернігівська 9в',
             ],
             waypoints: [],
         };
@@ -70,12 +63,6 @@ export default {
 
 
     methods: {
-        zoomUpdate(zoom) {
-            this.currentZoom = zoom;
-        },
-        centerUpdate(center) {
-            this.currentCenter = center;
-        },
         showLongText() {
             this.showParagraph = !this.showParagraph;
         },
@@ -86,8 +73,8 @@ export default {
             this.addresses.forEach(address => {
                 const geolocate = axios.get('https://nominatim.openstreetmap.org/search', {
                     params: {
-                        q: `${address}, Одесса`,
-                        country: 'Украина',
+                        q: `${address}, Одеса`,
+                        country: 'Україна',
                         limit: 1,
                         format: 'json',
                         countrycodes: 'ua',
