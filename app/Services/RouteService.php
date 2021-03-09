@@ -18,11 +18,8 @@ class RouteService
 
             Route::create([
                 'type' => $route['type'],
-                'scheduled_at' => ($route['scheduled_at'])
-                    ? $route['scheduled_at']
-                    : (
-                    ($route['type'] === 'evening') ? '18:10' : '08:30'
-                    ),
+                'scheduled_at' => $route['scheduled_at']
+                    ?? (($route['type'] === 'evening') ? '18:10' : '08:30'),
             ])
                 ->persons()->attach(
                     Arr::pluck($route['persons'], 'id')

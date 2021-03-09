@@ -40,14 +40,23 @@ import EditRoutesGroup from "../components/EditRoutesGroup";
 import {capitalizeFirstLetter} from "../services/helpers";
 
 export default {
-    name: "EditRoutes",
     components: {EditRoutesGroup},
+
+
+    props: {
+        routesProp: {
+            type: Object,
+            required: true,
+        },
+    },
+
+
     data() {
         return {
-            eveningRoutes: [],
-            morningRoutes: [],
-            noRouteEveningPersons: [],
-            noRouteMorningPersons: [],
+            eveningRoutes: this.routesProp.evening_routes,
+            morningRoutes: this.routesProp.morning_routes,
+            noRouteEveningPersons: this.routesProp.no_route_evening_persons,
+            noRouteMorningPersons: this.routesProp.no_route_morning_persons,
         };
     },
 
@@ -108,10 +117,5 @@ export default {
                 });
         },
     },
-
-
-    created() {
-        this.getRoutesForEdit();
-    }
 }
 </script>

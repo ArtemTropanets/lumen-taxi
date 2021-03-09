@@ -16,7 +16,7 @@
             </thead>
             <tbody>
                 <tr
-                    v-for="person in persons"
+                    v-for="person of persons"
                     :key="person.id"
                     class="person-table__row"
                     :class="{'address-saved-today': isAddressSavedToday(person.address_update_date)}"
@@ -91,15 +91,23 @@
 
 <script>
 import PersonService from "../services/PersonService";
-import {toLocalIsoString} from "../services/helpers";
 import AddressListInputGroupBtn from "../components/AddressListInputGroupBtn";
 
 export default {
-    name: "DailyAddressList",
     components: {AddressListInputGroupBtn},
+
+
+    props: {
+        personsProp: {
+            type: Array,
+            required: true,
+        },
+    },
+
+
     data() {
         return {
-            persons: null,
+            persons: this.personsProp,
             todayIsoDate: null,
             isHoveringObj: {
                 'evening_delete': {},
@@ -132,7 +140,7 @@ export default {
         },
 
         updateTodayIsoDate() {
-            this.todayIsoDate = toLocalIsoString(new Date());
+            this.todayIsoDate = new Date().toISOString().slice(0, 10);
         },
 
         setHomeAddress(person, type) {
@@ -169,10 +177,10 @@ export default {
 
 
     created() {
-        this.updatePersonsTable();
+        this.updateTodayIsoDate();
         this.$eventBus.$off('load-persons');
         this.$eventBus.$on('load-persons', this.updatePersonsTable);
-    }
+    },
 }
 </script>
 
