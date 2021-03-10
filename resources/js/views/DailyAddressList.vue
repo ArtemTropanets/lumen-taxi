@@ -93,6 +93,8 @@
 import PersonService from "../services/PersonService";
 import AddressListInputGroupBtn from "../components/AddressListInputGroupBtn";
 
+import {toLocalIsoString} from "../services/helpers";
+
 export default {
     components: {AddressListInputGroupBtn},
 
@@ -140,7 +142,7 @@ export default {
         },
 
         updateTodayIsoDate() {
-            this.todayIsoDate = new Date().toISOString().slice(0, 10);
+            this.todayIsoDate = toLocalIsoString(new Date());
         },
 
         setHomeAddress(person, type) {

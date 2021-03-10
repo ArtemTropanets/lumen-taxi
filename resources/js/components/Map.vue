@@ -1,5 +1,15 @@
 <template>
     <div style="height: 500px;">
+        <div
+            v-if="loader"
+            class="map-loader d-flex justify-content-center"
+        >
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+
         <l-map
             ref="map"
             v-if="showMap"
@@ -24,25 +34,27 @@ L.Icon.Default.mergeOptions({
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 
-import { LMap, LTileLayer, LMarker, LPopup, LTooltip } from "vue2-leaflet";
+import { LMap, LTileLayer } from "vue2-leaflet";
 import 'leaflet-routing-machine';
 import 'lrm-graphhopper';
 
 export default {
-    name: "Map",
+    props: {
+        routingAddresses: Array,
+        type: String,
+    },
 
 
     components: {
         LMap,
         LTileLayer,
-        LMarker,
-        LPopup,
-        LTooltip
     },
 
 
     data() {
         return {
+            loader: false,
+
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             office: L.latLng(46.4314814, 30.7405042),
             currentCenter: L.latLng(46.4314814, 30.7405042),
@@ -52,11 +64,7 @@ export default {
             },
             showMap: false,
 
-            addresses: [
-                // 'ЖК Пята перлина',
-                'Тополина 14',
-                'Чернігівська 9в',
-            ],
+            addresses: this.routingAddresses,
             waypoints: [],
         };
     },
@@ -69,6 +77,8 @@ export default {
 
 
         async geolocateAddresses() {
+            this.loader = true;
+
             const requests = [];
             this.addresses.forEach(address => {
                 const geolocate = axios.get('https://nominatim.openstreetmap.org/search', {
@@ -84,7 +94,13 @@ export default {
                 requests.push(geolocate);
             });
 
-            const response = await Promise.all(requests);
+            let response;
+            try {
+                response = await Promise.all(requests);
+            } catch (error) {
+                this.loader = false;
+            }
+
             response.forEach((resp, index) => {
                 const address = resp.data[0];
                 if (!address) {
@@ -95,10 +111,21 @@ export default {
                 this.waypoints.push(L.latLng(address.lat, address.lon));
             });
 
-            this.waypoints.push(this.office);
+            if (this.waypoints.length <= 4) {
+                if (this.type === 'morning') {
+                    this.waypoints.push(this.office);
+                } else {
+                    this.waypoints.unshift(this.office);
+                }
+            }
 
+            this.loader = false;
             this.showMap = true;
-            this.$nextTick(() => this.drawRoute());
+            this.$nextTick(() => {
+                if (!this.$refs.map) return;
+
+                this.drawRoute();
+            });
         },
 
         drawRoute() {
@@ -123,5 +150,10 @@ export default {
 <style>
 .leaflet-default-shadow-path {
     display: none;
+}
+
+.map-loader .spinner-border {
+    width: 6rem;
+    height: 6rem;
 }
 </style>

@@ -72,9 +72,6 @@ import FormControlInput from "../components/FormControlInput";
 import PersonService from "../services/PersonService";
 
 export default {
-    name: "CreateEditPersonModal",
-
-
     components: {
         FormControlInput
     },

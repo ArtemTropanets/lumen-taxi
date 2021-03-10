@@ -53,8 +53,15 @@
                         </div>
                         <div class="col-4 align-self-center text-end">
                             <button
+                                v-show="route.persons.length"
+                                class="btn btn-sm btn-primary"
+                                style="width: 70px;"
+                                @click="showRouteMap(route)"
+                            >Карта</button>
+                            <button
                                 v-show="!route.persons.length"
                                 class="btn btn-sm btn-danger"
+                                style="width: 70px;"
                                 @click="$emit('delete-route', type, index)"
                             >Удалить</button>
                         </div>
@@ -67,7 +74,7 @@
                     :animation="200"
                     ghost-class="moving-person-row"
                     class="route-table"
-                    style="position: relative;z-index: 1"
+                    style="position: relative; z-index: 1"
                 >
                     <tr
                         v-for="person in route.persons"
@@ -107,7 +114,12 @@ export default {
 
     props: {
         title: String,
-        type: String,
+        type: {
+            type: String,
+            validator(val) {
+                return ['evening', 'morning'].includes(val);
+            }
+        },
         routes: Array,
         noRoutePersonsProp: Array,
     },
@@ -130,6 +142,17 @@ export default {
             set(newVal) {
                 this.$emit('updateNoRoutePersons', newVal, this.type);
             }
+        },
+    },
+
+
+    methods: {
+        showRouteMap(route) {
+            const addresses = route.persons.map(person => {
+                return person[`${this.type}_address`];
+            });
+
+            this.$eventBus.$emit('show-route-map-modal', addresses, this.type);
         },
     },
 }

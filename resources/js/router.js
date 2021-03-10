@@ -55,9 +55,9 @@ export default new Router({
         },
 
         {
-            path: '/all-persons',
-            name: 'allPersons',
-            component: () => import('./views/AllPersons'),
+            path: '/persons',
+            name: 'persons',
+            component: () => import('./views/Persons'),
         },
 
 

@@ -18,9 +18,9 @@
             <ul class="nav nav-pills">
                 <li>
                     <router-link
-                        :to="{name: 'allPersons'}"
+                        :to="{name: 'persons'}"
                         class="nav-link"
-                        :class="{active: 'allPersons' === currentRouteName}"
+                        :class="{active: 'persons' === currentRouteName}"
                     >Сотрудники</router-link>
                 </li>
             </ul>
