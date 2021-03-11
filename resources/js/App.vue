@@ -3,6 +3,9 @@
         <Loader/>
         <SuccessToast/>
 
+        <RouteMapModal/>
+
+
 
         <NavBar/>
         <div class="container">
@@ -15,6 +18,7 @@
 import Loader from "./components/Loader";
 import NavBar from "./components/NavBar";
 import SuccessToast from "./components/SuccessToast";
+import RouteMapModal from "./modals/RouteMapModal";
 
 export default {
     name: "App",
@@ -22,6 +26,7 @@ export default {
         NavBar,
         SuccessToast,
         Loader,
+        RouteMapModal,
     }
 }
 </script>

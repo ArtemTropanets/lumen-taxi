@@ -1,8 +1,9 @@
 <template>
-    <div style="height: clamp(400px, 65vh, 600px);">
+    <div class="position-relative" style="height: clamp(400px, 65vh, 600px);">
         <div
             v-if="loader"
-            class="map-loader d-flex justify-content-center align-items-center h-100"
+            class="map-loader position-absolute d-flex justify-content-center align-items-center h-100 w-100 bg-white"
+            style="z-index: 10000"
         >
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -56,18 +57,34 @@ export default {
             loader: false,
 
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            office: L.latLng(46.4314814, 30.7405042),
-            currentCenter: L.latLng(46.4314814, 30.7405042),
             showParagraph: false,
             mapOptions: {
                 zoomSnap: 0.5
             },
             showMap: false,
 
-            addresses: this.routingAddresses,
+            office: L.latLng(46.4314814, 30.7405042),
+
+            routeControl: null,
+
             waypoints: [],
-            cachedWaypoints: {},
+            cachedWaypointsByAddressName: {},
+            markers: [],
+            notFoundAddresses: [],
         };
+    },
+
+
+    watch: {
+        routingAddresses() {
+            if (!this.showMap) return;
+            this.updateRouteMap();
+        },
+
+        type() {
+            if (!this.showMap) return;
+            this.updateRouteMap();
+        },
     },
 
 
@@ -76,79 +93,124 @@ export default {
             this.showParagraph = !this.showParagraph;
         },
 
+        addOfficeAddressToWaypoints() {
+            if (this.waypoints.length > 4) return;
+
+            if (this.type === 'morning') {
+                this.waypoints.push(this.office);
+            } else {
+                this.waypoints.unshift(this.office);
+            }
+            this.markers.push(L.marker([this.office.lat, this.office.lng]));
+        },
 
         async geolocateAddresses() {
             this.loader = true;
 
-            const requests = [];
-            this.addresses.forEach(address => {
-                const geolocate = axios.get('https://nominatim.openstreetmap.org/search', {
-                    params: {
-                        q: `${address}, Одеса`,
-                        country: 'Україна',
-                        limit: 1,
-                        format: 'json',
-                        countrycodes: 'ua',
-                    }
-                });
+            const geolocRequests = [];
+            this.routingAddresses.forEach(address => {
+                if (this.cachedWaypointsByAddressName[address]) {
+                    geolocRequests.push(
+                        Promise.resolve(this.cachedWaypointsByAddressName[address])
+                    );
+                    return;
+                }
 
-                requests.push(geolocate);
+                // const geolocate = axios.get('https://nominatim.openstreetmap.org/search', {
+                //     params: {
+                //         q: `${address}, Одеса`,
+                //         country: 'Україна',
+                //         limit: 1,
+                //         format: 'json',
+                //         countrycodes: 'ua',
+                //     }
+                // });
+
+                // const geolocate = axios.get('https://cleaner.dadata.ru/api/v1/clean/address', {
+                //
+                //     params: {
+                //         q: `${address}, Одесcа, Украина`,
+                //         locale: 'en',
+                //         limit: 1,
+                //         debug: 'true',
+                //         key: '41b11856-c406-4f19-865a-d71c1a95330d',
+                //     }
+                // });
+
+                geolocRequests.push(geolocate);
             });
 
-            let response;
             try {
-                response = await Promise.all(requests);
+                return await Promise.all(geolocRequests);
             } catch (error) {
+                alert('Error by locating routingAddresses');
+                return Promise.resolve(false);
+            } finally {
                 this.loader = false;
             }
+        },
 
-            response.forEach((resp, index) => {
-                const address = resp.data[0];
+        async updateRouteMap() {
+            const geolocs = await this.geolocateAddresses();
+            if (!geolocs) return;
+
+            this.waypoints = [];
+            this.markers = [];
+            this.notFoundAddresses = [];
+
+            geolocs.forEach((resp, index) => {
+                console.log(resp.data)
+                // const address = resp.data[0];
+                // this.cachedWaypointsByAddressName[this.routingAddresses[index]] = {data: [address]};
+                const address = resp.data.hits[0]?.point;
+                this.cachedWaypointsByAddressName[this.routingAddresses[index]] = {data: {hits: [{point: address}]}};
                 if (!address) {
-                    alert(`Address not found: ${this.addresses[index]}`);
+                    return;
+                    alert(`Address not found: ${this.routingAddresses[index]}`);
                     throw new Error('Adress not found');
                 }
 
-                this.waypoints.push(L.latLng(address.lat, address.lon));
+                this.waypoints.push(L.latLng(address.lat, address.lng));
+                this.markers.push(L.marker([address.lat, address.lng]));
+
+                // this.waypoints.push(L.latLng(address.lat, address.lon));
+                // this.markers.push(L.marker([address.lat, address.lon]));
             });
 
-            if (this.waypoints.length <= 4) {
-                if (this.type === 'morning') {
-                    this.waypoints.push(this.office);
-                } else {
-                    this.waypoints.unshift(this.office);
-                }
-            }
+            this.addOfficeAddressToWaypoints();
 
             this.loader = false;
-            this.showMap = true;
-            this.$nextTick(() => {
-                if (!this.$refs.map) return;
 
+            if (!this.showMap) {
+                this.showMap = true;
+            }
+            this.$nextTick(() => {
                 this.drawRoute();
             });
         },
 
         drawRoute() {
-            const control = L.Routing.control({
-                waypoints: this.waypoints,
-                routeWhileDragging: false,
-                router: L.Routing.graphHopper('41b11856-c406-4f19-865a-d71c1a95330d'),
-                show: false,
-                autoRoute: false,
-            }).addTo(this.$refs.map.mapObject);
-            control.route();
+            if (!this.routeControl) {
+                this.routeControl = L.Routing.control({
+                    waypoints: this.waypoints,
+                    routeWhileDragging: false,
+                    router: L.Routing.graphHopper('41b11856-c406-4f19-865a-d71c1a95330d'),
+                    show: false,
+                    autoRoute: false,
+                }).addTo(this.$refs.map.mapObject);
 
-/*            setTimeout(() => {
-                control.setWaypoints(control.options.waypoints.slice(0, 2));
-                control.route();
-            }, 5000);*/
+            } else {
+                this.routeControl.setWaypoints(this.waypoints);
+                this.$refs.map.fitBounds(new L.featureGroup(this.markers).getBounds());
+            }
+
+            this.routeControl.route();
         },
     },
 
 
     mounted() {
-        this.geolocateAddresses();
+        this.updateRouteMap();
     },
 };
 </script>

@@ -59,12 +59,10 @@ export default {
             this.routingAddresses = addressesArr;
             this.type = type;
 
-            this.drawMap = false;
-
-            this.$nextTick(() => {
-                this.modal.show();
+            this.modal.show();
+            if (!this.drawMap) {
                 this.drawMap = true;
-            });
+            }
         },
     },
 

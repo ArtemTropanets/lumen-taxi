@@ -1,7 +1,5 @@
 <template>
     <div>
-        <RouteMapModal/>
-
         <div class="d-flex justify-content-center position-relative">
             <button
                 class="btn btn-success position-absolute"
@@ -39,13 +37,11 @@
 <script>
 import RouteService from "../services/RouteService";
 import EditRoutesGroup from "../components/EditRoutesGroup";
-import RouteMapModal from "../modals/RouteMapModal";
 import {capitalizeFirstLetter} from "../services/helpers";
 
 export default {
     components: {
         EditRoutesGroup,
-        RouteMapModal,
     },
 
 
