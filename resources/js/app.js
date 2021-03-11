@@ -4,6 +4,9 @@ import App from './App.vue';
 import router from './router';
 import eventBus from "./eventBus";
 
+import _ from 'lodash';
+window._ = _;
+
 import axios from 'axios';
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

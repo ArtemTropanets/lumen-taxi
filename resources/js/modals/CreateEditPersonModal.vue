@@ -184,6 +184,10 @@ export default {
 
     mounted() {
         this.modal = new bootstrap.Modal(document.getElementById('createEditPersonModal'));
-    }
+    },
+
+    destroyed() {
+        this.modal = null;
+    },
 }
 </script>

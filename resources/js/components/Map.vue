@@ -1,8 +1,8 @@
 <template>
-    <div style="height: 500px;">
+    <div style="height: clamp(400px, 65vh, 600px);">
         <div
             v-if="loader"
-            class="map-loader d-flex justify-content-center"
+            class="map-loader d-flex justify-content-center align-items-center h-100"
         >
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
@@ -14,7 +14,7 @@
             ref="map"
             v-if="showMap"
             :options="mapOptions"
-            style="height: 80%"
+            style="height: 100%"
         >
             <l-tile-layer
                 :url="url"
@@ -66,6 +66,7 @@ export default {
 
             addresses: this.routingAddresses,
             waypoints: [],
+            cachedWaypoints: {},
         };
     },
 
@@ -137,6 +138,11 @@ export default {
                 autoRoute: false,
             }).addTo(this.$refs.map.mapObject);
             control.route();
+
+/*            setTimeout(() => {
+                control.setWaypoints(control.options.waypoints.slice(0, 2));
+                control.route();
+            }, 5000);*/
         },
     },
 

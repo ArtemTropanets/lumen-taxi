@@ -1,6 +1,6 @@
 <template>
     <div class="modal fade" id="showRouteMapModal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -48,21 +48,24 @@ export default {
 
     methods: {
         showModal(addressesArr, type) {
+            if (
+                _.isEqual(this.routingAddresses, addressesArr)
+                && (this.type === type)
+            ) {
+                this.modal.show();
+                return;
+            }
+
             this.routingAddresses = addressesArr;
             this.type = type;
 
-            this.modal.show();
-            this.drawMap = true;
+            this.drawMap = false;
+
+            this.$nextTick(() => {
+                this.modal.show();
+                this.drawMap = true;
+            });
         },
-    },
-
-
-    watch: {
-        'modal._isShown'() {
-            if (!this.modal._isShown) {
-                this.drawMap = false;
-            }
-        }
     },
 
 
@@ -74,6 +77,10 @@ export default {
         this.modal = new bootstrap.Modal(document.getElementById('showRouteMapModal'), {
             backdrop: 'static',
         });
+    },
+
+    destroyed() {
+        this.modal = null;
     }
 }
 </script>
