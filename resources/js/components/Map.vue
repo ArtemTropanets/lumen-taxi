@@ -11,16 +11,30 @@
         </div>
 
 
-        <l-map
-            ref="map"
-            v-if="showMap"
-            :options="mapOptions"
-            style="height: 100%"
-        >
-            <l-tile-layer
-                :url="url"
-            />
-        </l-map>
+        <div class="d-flex h-100">
+            <div
+                v-if="notFoundAddresses.length"
+                style="width: 200px; margin-right: 10px;"
+            >
+                <div class="fw-bold">Красные адреса не найдены</div>
+                <div
+                    v-for="(address, index) of routingAddresses"
+                    :key="index"
+                    class="not-found-address-list-item"
+                    :class="{'text-danger fw-bold': notFoundAddressesAssoc[address]}"
+                >{{ address }}</div>
+            </div>
+            <l-map
+                ref="map"
+                v-if="showMap"
+                :options="mapOptions"
+                style="height: 100%"
+            >
+                <l-tile-layer
+                    :url="url"
+                />
+            </l-map>
+        </div>
     </div>
 </template>
 
@@ -75,6 +89,13 @@ export default {
     },
 
 
+    computed: {
+        notFoundAddressesAssoc() {
+            return _.keyBy(this.notFoundAddresses);
+        }
+    },
+
+
     watch: {
         routingAddresses() {
             if (!this.showMap) return;
@@ -116,26 +137,15 @@ export default {
                     return;
                 }
 
-                // const geolocate = axios.get('https://nominatim.openstreetmap.org/search', {
-                //     params: {
-                //         q: `${address}, Одеса`,
-                //         country: 'Україна',
-                //         limit: 1,
-                //         format: 'json',
-                //         countrycodes: 'ua',
-                //     }
-                // });
-
-                // const geolocate = axios.get('https://cleaner.dadata.ru/api/v1/clean/address', {
-                //
-                //     params: {
-                //         q: `${address}, Одесcа, Украина`,
-                //         locale: 'en',
-                //         limit: 1,
-                //         debug: 'true',
-                //         key: '41b11856-c406-4f19-865a-d71c1a95330d',
-                //     }
-                // });
+                const geolocate = axios.get('https://nominatim.openstreetmap.org/search', {
+                    params: {
+                        q: `${address}, Одеса`,
+                        country: 'Україна',
+                        limit: 1,
+                        format: 'json',
+                        countrycodes: 'ua',
+                    }
+                });
 
                 geolocRequests.push(geolocate);
             });
@@ -159,22 +169,15 @@ export default {
             this.notFoundAddresses = [];
 
             geolocs.forEach((resp, index) => {
-                console.log(resp.data)
-                // const address = resp.data[0];
-                // this.cachedWaypointsByAddressName[this.routingAddresses[index]] = {data: [address]};
-                const address = resp.data.hits[0]?.point;
-                this.cachedWaypointsByAddressName[this.routingAddresses[index]] = {data: {hits: [{point: address}]}};
+                const address = resp.data[0];
+                this.cachedWaypointsByAddressName[this.routingAddresses[index]] = {data: [address]};
                 if (!address) {
+                    this.notFoundAddresses.push(this.routingAddresses[index]);
                     return;
-                    alert(`Address not found: ${this.routingAddresses[index]}`);
-                    throw new Error('Adress not found');
                 }
 
-                this.waypoints.push(L.latLng(address.lat, address.lng));
-                this.markers.push(L.marker([address.lat, address.lng]));
-
-                // this.waypoints.push(L.latLng(address.lat, address.lon));
-                // this.markers.push(L.marker([address.lat, address.lon]));
+                this.waypoints.push(L.latLng(address.lat, address.lon));
+                this.markers.push(L.marker([address.lat, address.lon]));
             });
 
             this.addOfficeAddressToWaypoints();
@@ -223,5 +226,13 @@ export default {
 .map-loader .spinner-border {
     width: 6rem;
     height: 6rem;
+}
+
+
+</style>
+
+<style scoped>
+.not-found-address-list-item:not(:last-of-type) {
+    border-bottom: 1px solid lightgrey;
 }
 </style>

@@ -149,7 +149,7 @@ export default {
     methods: {
         showRouteMap(route) {
             const addresses = route.persons.map(person => {
-                return person[`${this.type}_address`];
+                return person[`${this.type}_address`]
             });
 
             this.$eventBus.$emit('show-route-map-modal', addresses, this.type);
