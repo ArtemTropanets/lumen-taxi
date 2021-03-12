@@ -18,11 +18,17 @@ class PersonController extends Controller
         //
     }
 
-    public function getAll(): array
+    public function getActive(): array
     {
         return [
-            'persons' => Person::orderBy('name')
-                ->get(),
+            'persons' => Person::orderBy('name')->get(),
+        ];
+    }
+
+    public function getAll()
+    {
+        return [
+            'persons' => Person::withTrashed()->orderBy('name')->get(),
         ];
     }
 
@@ -40,8 +46,13 @@ class PersonController extends Controller
 
     public function edit(Request $request): array
     {
-        Person::find($request->id)
-            ->update([
+        $person = Person::withTrashed()->find($request->id);
+
+        if (is_null($person)) {
+            return ['status' => 'ok'];
+        }
+
+        $person->update([
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'default_evening_address' => $request->default_evening_address,
@@ -51,17 +62,25 @@ class PersonController extends Controller
         return ['status' => 'ok'];
     }
 
-    public function softDelete(string $id): array
+    public function deactivate(string $id): array
     {
         Person::destroy($id);
 
         return ['status' => 'ok'];
     }
 
-    public function restore(Request $request): array
+    public function activate(Request $request): array
     {
-        Person::find($request->person_id)
+        Person::withTrashed()->find($request->person_id)
             ->restore();
+
+        return ['status' => 'ok'];
+    }
+
+    public function delete(string $id): array
+    {
+        Person::withTrashed()->find($id)
+            ->forceDelete();
 
         return ['status' => 'ok'];
     }

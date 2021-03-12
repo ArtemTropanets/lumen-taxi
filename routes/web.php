@@ -14,48 +14,52 @@
 */
 
 $router->group(['prefix' => 'person'], function () use ($router) {
+
+    $router->get('getActive', [
+        'uses' => 'PersonController@getActive',
+    ]);
+
     $router->get('getAll', [
-        'as' => 'getPersons',
         'uses' => 'PersonController@getAll',
     ]);
 
     $router->post('create', [
-        'as' => 'create',
         'uses' => 'PersonController@create',
     ]);
 
     $router->post('edit', [
-        'as' => 'edit',
         'uses' => 'PersonController@edit',
     ]);
 
-    $router->delete('softDelete/{id}', [
-        'as' => 'softDelete',
-        'uses' => 'PersonController@softDelete'
+    $router->delete('deactivate/{id}', [
+        'uses' => 'PersonController@deactivate'
     ]);
 
-    $router->post('restore', [
-        'as' => 'restore',
-        'uses' => 'PersonController@restore',
+    $router->post('activate', [
+        'uses' => 'PersonController@activate',
+    ]);
+
+    $router->delete('delete/{id}', [
+        'uses' => 'PersonController@delete',
     ]);
 
     $router->post('saveTodayAddresses', [
-        'as' => 'saveTodayAddresses',
         'uses' => 'PersonController@saveTodayAddresses',
     ]);
+
 });
 
 
 $router->group(['prefix' => 'route'], function () use ($router) {
+
     $router->get('getRoutesForEdit', [
-        'as' => 'getRoutesForEdit',
         'uses' => 'RouteController@getRoutesForEdit',
     ]);
 
     $router->post('saveRoutes', [
-        'as' => 'saveRoutes',
         'uses' => 'RouteController@saveRoutes',
     ]);
+
 });
 
 

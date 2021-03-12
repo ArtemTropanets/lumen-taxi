@@ -1,5 +1,7 @@
 export default {
-    getPersons: () => axios.get('/person/getAll'),
+    getActive: () => axios.get('/person/getActive'),
+
+    getAll: () => axios.get('/person/getAll'),
 
     saveTodayAddresses: (data) => axios.post('/person/saveTodayAddresses', data),
 
@@ -7,7 +9,9 @@ export default {
 
     editPerson: (data) => axios.post('/person/edit', data),
 
-    softDeletePerson: (id) => axios.delete(`/person/softDelete/${id}`),
+    deactivate: (id) => axios.delete(`/person/deactivate/${id}`),
 
-    restorePerson: (data) => axios.post('/person/restore', data),
+    activate: (data) => axios.post('/person/activate', data),
+
+    delete: (id) => axios.delete(`/person/delete/${id}`),
 }

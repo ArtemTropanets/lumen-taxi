@@ -3,6 +3,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
+                    На карте отображаются максимум 5 адресов
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -12,14 +13,6 @@
                         :routing-addresses="routingAddresses"
                         :type="type"
                     />
-                </div>
-
-                <div class="modal-footer">
-                    <button
-                        type="button"
-                        class="btn btn-secondary"
-                        data-bs-dismiss="modal"
-                    >Закрыть</button>
                 </div>
             </div>
         </div>
@@ -48,16 +41,12 @@ export default {
 
     methods: {
         showModal(addressesArr, type) {
-            if (
-                _.isEqual(this.routingAddresses, addressesArr)
-                && (this.type === type)
-            ) {
-                this.modal.show();
-                return;
+            if (!_.isEqual(this.routingAddresses, addressesArr)) {
+                this.routingAddresses = addressesArr;
             }
-
-            this.routingAddresses = addressesArr;
-            this.type = type;
+            if (this.type !== type) {
+                this.type = type;
+            }
 
             this.modal.show();
             if (!this.drawMap) {
@@ -72,9 +61,7 @@ export default {
     },
 
     mounted() {
-        this.modal = new bootstrap.Modal(document.getElementById('showRouteMapModal'), {
-            backdrop: 'static',
-        });
+        this.modal = new bootstrap.Modal(document.getElementById('showRouteMapModal'));
     },
 
     destroyed() {

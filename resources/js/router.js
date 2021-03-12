@@ -18,7 +18,7 @@ export default new Router({
             beforeEnter(to, from, next) {
                 setTimeout(() => {
                     eventBus.$emit('show-loader');
-                    PersonService.getPersons()
+                    PersonService.getActive()
                         .then(response => {
                             to.params.personsProp = response.data.persons;
                             next();
@@ -58,6 +58,22 @@ export default new Router({
             path: '/persons',
             name: 'persons',
             component: () => import('./views/Persons'),
+            props: true,
+            beforeEnter(to, from, next) {
+                setTimeout(() => {
+                    eventBus.$emit('show-loader');
+                    PersonService.getAll()
+                        .then(response => {
+                            to.params.personsProp = response.data.persons;
+                            next();
+                        })
+                        .catch(error => {
+                            console.dir(error);
+                            alert('Error');
+                        })
+                        .finally(() => eventBus.$emit('show-loader', false));
+                });
+            },
         },
 
 

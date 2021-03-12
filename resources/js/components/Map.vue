@@ -12,17 +12,25 @@
 
 
         <div class="d-flex h-100">
-            <div
-                v-if="notFoundAddresses.length"
-                style="width: 200px; margin-right: 10px;"
-            >
-                <div class="fw-bold">Красные адреса не найдены</div>
+            <div style="width: 200px; margin-right: 10px;">
+                <div
+                    v-if="notFoundAddresses.length"
+                    class="fw-bold"
+                >Красные адреса не найдены</div>
+                <div
+                    v-if="type === 'evening'"
+                    class="address-list-item"
+                >Бригадная 77</div>
                 <div
                     v-for="(address, index) of routingAddresses"
                     :key="index"
-                    class="not-found-address-list-item"
+                    class="address-list-item"
                     :class="{'text-danger fw-bold': notFoundAddressesAssoc[address]}"
                 >{{ address }}</div>
+                <div
+                    v-if="type === 'morning'"
+                    class="address-list-item"
+                >Бригадная 77</div>
             </div>
             <l-map
                 ref="map"
@@ -232,7 +240,7 @@ export default {
 </style>
 
 <style scoped>
-.not-found-address-list-item:not(:last-of-type) {
+.address-list-item:not(:last-of-type) {
     border-bottom: 1px solid lightgrey;
 }
 </style>

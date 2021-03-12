@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="createEditPersonModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="createEditPersonModal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -23,13 +23,13 @@
 
                     <FormControlInput
                         v-model="person.default_evening_address"
-                        label="Стандартный адрес вечер"
+                        label="Домашний адрес вечер"
                         id="createPersonModalEveningAddress"
                     />
 
                     <FormControlInput
                         v-model="person.default_morning_address"
-                        label="Стандарнтый адрес утро"
+                        label="Домашний адрес утро"
                         id="createPersonModalMorningAddress"
                     />
 
@@ -98,7 +98,7 @@ export default {
                 this.resetCreatePersonObj();
                 this.modal.show();
             } else if (this.modalType === 'edit') {
-                this.person = person;
+                this.person = _.clone(person);
                 this.modal.show();
             }
         },
@@ -114,20 +114,13 @@ export default {
 
         saveHandler() {
             if (!this.person.name.trim()) {
-                alert('Ахтунг, человек без имени');
+                alert('Введи имя');
                 return;
             }
 
             this.$eventBus.$emit('show-loader');
 
-            let promise;
-            if (this.modalType === 'create') {
-                promise = PersonService.createPerson(this.person);
-            } else if (this.modalType === 'edit') {
-                promise = PersonService.editPerson(this.person);
-            }
-
-            promise
+            PersonService[`${this.modalType}Person`](this.person)
                 .then(response => {
                     if (response.data.status !== 'ok') {
                         throw new Error('Unexpected response');
@@ -142,22 +135,22 @@ export default {
                 .finally(() => {
                     this.$eventBus.$emit('show-loader', false);
                     this.$eventBus.$emit('show-success-toast');
-                    this.$eventBus.$emit('load-persons');
+                    this.$emit('load-persons');
                 });
         },
 
         deletePerson() {
             const password = window.prompt(
-                `Притормози, если ты действительно хочешь удалить человека по имени ${this.person.name}, тебе придется ввести секретное слово`
+                `Ты действительно хочешь удалить ${this.person.name}? Это действие нельзя отменить. Введи пароль`
             );
 
             if (password === null) return;
             if (password !== 'ololo') {
-                alert('А вот и не угадал :D');
+                alert('Неверный пароль');
                 return;
             }
 
-            PersonService.softDeletePerson(this.person.id)
+            PersonService.delete(this.person.id)
                 .then(response => {
                     if (response.data.status !== 'ok') {
                         throw new Error('Unexpected response');
@@ -172,7 +165,7 @@ export default {
                 .finally(() => {
                     this.$eventBus.$emit('show-loader', false);
                     this.$eventBus.$emit('show-success-toast');
-                    this.$eventBus.$emit('load-persons');
+                    this.$emit('load-persons');
                 });
         },
     },
@@ -183,11 +176,14 @@ export default {
     },
 
     mounted() {
-        this.modal = new bootstrap.Modal(document.getElementById('createEditPersonModal'));
+        this.modal = new bootstrap.Modal(document.getElementById('createEditPersonModal'), {
+            backdrop: 'static',
+        });
     },
 
     destroyed() {
         this.modal = null;
+        this.$eventBus.$off('show-create-edit-person-modal', this.showModal);
     },
 }
 </script>
