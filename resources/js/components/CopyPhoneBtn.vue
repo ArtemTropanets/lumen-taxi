@@ -1,6 +1,5 @@
 <template>
     <button
-        type="button"
         class="btn btn-secondary btn-sm text-dark bg-light"
         style="border-color: lightgrey"
         :disabled="!phone"

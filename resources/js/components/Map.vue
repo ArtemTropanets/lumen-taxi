@@ -12,25 +12,13 @@
 
 
         <div class="d-flex h-100">
-            <div style="width: 200px; margin-right: 10px;">
-                <div
-                    v-if="notFoundAddresses.length"
-                    class="fw-bold"
-                >Красные адреса не найдены</div>
-                <div
-                    v-if="type === 'evening'"
-                    class="address-list-item"
-                >Бригадная 77</div>
-                <div
-                    v-for="(address, index) of routingAddresses"
-                    :key="index"
-                    class="address-list-item"
-                    :class="{'text-danger fw-bold': notFoundAddressesAssoc[address]}"
-                >{{ address }}</div>
-                <div
-                    v-if="type === 'morning'"
-                    class="address-list-item"
-                >Бригадная 77</div>
+            <div style="width: 280px; margin-right: 10px;">
+                <AddressesListInMapModal
+                    :notFoundAddresses="notFoundAddresses"
+                    :notFoundAddressesAssoc="notFoundAddressesAssoc"
+                    :routingAddresses="routingAddresses"
+                    :type="type"
+                />
             </div>
             <l-map
                 ref="map"
@@ -49,6 +37,11 @@
 
 <script>
 import L from 'leaflet';
+import {LMap, LTileLayer} from "vue2-leaflet";
+import 'leaflet-routing-machine';
+import 'lrm-graphhopper';
+import AddressesListInMapModal from "./AddressesListInMapModal";
+
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -56,10 +49,6 @@ L.Icon.Default.mergeOptions({
     iconUrl: require('leaflet/dist/images/marker-icon.png'),
     shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
-
-import { LMap, LTileLayer } from "vue2-leaflet";
-import 'leaflet-routing-machine';
-import 'lrm-graphhopper';
 
 export default {
     props: {
@@ -69,6 +58,7 @@ export default {
 
 
     components: {
+        AddressesListInMapModal,
         LMap,
         LTileLayer,
     },
@@ -235,12 +225,5 @@ export default {
     width: 6rem;
     height: 6rem;
 }
-
-
 </style>
 
-<style scoped>
-.address-list-item:not(:last-of-type) {
-    border-bottom: 1px solid lightgrey;
-}
-</style>

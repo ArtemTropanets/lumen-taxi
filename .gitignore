@@ -1,6 +1,7 @@
 /vendor
 /.idea
 /public
+!/public.icons
 /node_modules
 Homestead.json
 Homestead.yaml

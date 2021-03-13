@@ -28,8 +28,11 @@
                             :phone="person.phone"
                         />
                     </td>
-                    <td class="col-6 p-1">{{ person.name }}</td>
-                    <td class="col-6 p-1">{{ person[`${type}_address`] }}</td>
+                    <td class="col-5 p-1">{{ person.name }}</td>
+                    <td class="col-7 p-1">
+                        <OpenMapLinkBtns :address="person[`${type}_address`]"/>
+                        {{ person[`${type}_address`] }}
+                    </td>
                 </tr>
             </draggable>
         </div>
@@ -91,8 +94,11 @@
                                 :phone="person.phone"
                             />
                         </td>
-                        <td class="col-6 p-1">{{ person.name }}</td>
-                        <td class="col-6 p-1">{{ person[`${type}_address`] }}</td>
+                        <td class="col-5 p-1">{{ person.name }}</td>
+                        <td class="col-7 p-1">
+                            <OpenMapLinkBtns :address="person[`${type}_address`]"/>
+                            {{ person[`${type}_address`] }}
+                        </td>
                     </tr>
                 </draggable>
             </div>
@@ -112,10 +118,12 @@
 import draggable from 'vuedraggable';
 import VueTimepicker from 'vue2-timepicker/src/vue-timepicker';
 import CopyPhoneBtn from "./CopyPhoneBtn";
+import OpenMapLinkBtns from "./OpenMapLinkBtns";
 
 export default {
     components: {
         CopyPhoneBtn,
+        OpenMapLinkBtns,
         draggable,
         VueTimepicker,
     },
