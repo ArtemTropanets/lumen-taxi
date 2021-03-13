@@ -39,12 +39,14 @@ class RouteService
         $routes->each(function ($route) use ($persons_order_by_route_id, $today_address_persons_by_id) {
             $route->persons = collect();
 
-            foreach ($persons_order_by_route_id[$route->id] as $persons_order) {
-                $person = $today_address_persons_by_id[$persons_order->person_id] ?? null;
+            $persons_order = $persons_order_by_route_id[$route->id] ?? [];
+
+            foreach ($persons_order as $item) {
+                $person = $today_address_persons_by_id[$item->person_id] ?? null;
                 if (empty($person)) continue;
 
                 if (!empty($person["{$route->type}_address"])) {
-                    $route->persons->push($today_address_persons_by_id[$persons_order->person_id]);
+                    $route->persons->push($today_address_persons_by_id[$item->person_id]);
                 }
             }
         });
