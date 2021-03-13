@@ -5,8 +5,6 @@
 
         <RouteMapModal/>
 
-
-
         <NavBar/>
         <div class="container">
             <router-view/>
@@ -21,7 +19,6 @@ import SuccessToast from "./components/SuccessToast";
 import RouteMapModal from "./modals/RouteMapModal";
 
 export default {
-    name: "App",
     components: {
         NavBar,
         SuccessToast,

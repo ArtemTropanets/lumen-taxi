@@ -68,7 +68,7 @@
                     <td>
                         <button
                             class="btn btn-success"
-                            @click="saveTodayAddresses(person)"
+                            @click="saveTodayAddresses(person, $event)"
                         >Сохранить</button>
                     </td>
                 </tr>
@@ -141,7 +141,12 @@ export default {
             person[`${type}_address`] = '';
         },
 
-        saveTodayAddresses(person) {
+        saveTodayAddresses(person, event) {
+            const btn = event.currentTarget;
+            setTimeout(() => {
+                btn.blur();
+            }, 100);
+
             this.$eventBus.$emit('show-loader');
             PersonService.saveTodayAddresses({
                 person_id: person.id,
