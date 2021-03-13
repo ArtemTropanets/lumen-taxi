@@ -4,7 +4,7 @@
         style="border-color: lightgrey"
         :disabled="!phone"
         @click="copyToClipboard"
-        v-tooltip.left="`Скопировать <div>номер</div> <div style='max-width: 90px'>${phone}</div>`"
+        v-tooltip.left="`Скопировать <div>номер</div> <div style='max-width: 95px'>${phone}</div>`"
     >
         <svg
             v-if="copiedIcon"

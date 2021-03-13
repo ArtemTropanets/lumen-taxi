@@ -19,6 +19,8 @@
                         v-model="person.phone"
                         label="Телефон"
                         id="createPersonModalPhone"
+                        placeholder="098-765-43-21"
+                        @input="formatPhoneNumber"
                     />
 
                     <FormControlInput
@@ -168,8 +170,43 @@ export default {
                     this.$emit('load-persons');
                 });
         },
-    },
 
+        formatPhoneNumber() {
+            if (!this.person.phone) {
+                this.person.phone = '';
+            }
+
+            setTimeout(() => {
+                if (this.person.phone.length > 13) {
+                    this.person.phone = this.person.phone.slice(0, 13);
+                    return;
+                }
+                this.person.phone = this.person.phone.replace(/\D/g, '');
+
+                if (this.person.phone.slice(0, 2) === '38') {
+                    this.person.phone = this.person.phone.slice(2);
+                }
+
+                if (['3','8'].includes(this.person.phone[0])) {
+                    this.person.phone = this.person.phone.slice(1);
+                }
+
+                if (this.person.phone.length < 7) {
+                    this.person.phone = this.person.phone.replace(/(\d{3})(\d{1,3})/,
+                        '$1-$2');
+                    return;
+                } else if (this.person.phone.length < 9) {
+                    this.person.phone = this.person.phone.replace(/(\d{3})(\d{3})(\d{1,2})/,
+                        '$1-$2-$3');
+                    return;
+                }
+
+                this.person.phone = this.person.phone.replace(/(\d{3})(\d{3})(\d{2})(\d{1,2})/,
+                    '$1-$2-$3-$4');
+            });
+
+        },
+    },
 
     created() {
         this.$eventBus.$on('show-create-edit-person-modal', this.showModal);
