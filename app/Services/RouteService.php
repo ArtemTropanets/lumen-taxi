@@ -40,11 +40,19 @@ class RouteService
             $route->persons = collect();
 
             foreach ($persons_order_by_route_id[$route->id] as $persons_order) {
-                $route->persons->push($today_address_persons_by_id[$persons_order->person_id]);
+                $person = $today_address_persons_by_id[$persons_order->person_id] ?? null;
+                if (empty($person)) continue;
+
+                if (!empty($person["{$route->type}_address"])) {
+                    $route->persons->push($today_address_persons_by_id[$persons_order->person_id]);
+                }
             }
         });
 
-        return $routes->groupBy('type');
+        return $routes->reject(function ($route) {
+            return $route->persons->isEmpty();
+        })
+            ->groupBy('type');
     }
 
 
