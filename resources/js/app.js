@@ -4,6 +4,9 @@ import App from './App.vue';
 import router from './router';
 import eventBus from "./eventBus";
 
+import VTooltip from 'v-tooltip';
+Vue.use(VTooltip);
+
 import _ from 'lodash';
 window._ = _;
 
