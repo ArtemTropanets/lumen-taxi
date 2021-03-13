@@ -111,6 +111,7 @@ export default {
                         throw new Error('Unexpected response');
                     }
 
+                    this.$eventBus.$emit('show-success-toast');
                 })
                 .catch(error => {
                     console.dir(error);
@@ -130,6 +131,7 @@ export default {
                         throw new Error('Unexpected response');
                     }
 
+                    this.$eventBus.$emit('show-success-toast');
                 })
                 .catch(error => {
                     console.dir(error);
