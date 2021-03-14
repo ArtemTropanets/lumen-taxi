@@ -72,6 +72,8 @@ export default {
                     this.morningRoutes = response.data.morning_routes;
                     this.noRouteEveningPersons = response.data.no_route_evening_persons;
                     this.noRouteMorningPersons = response.data.no_route_morning_persons;
+
+                    this.setRoutesForCompare();
                 })
                 .catch(error => {
                     console.dir(error);
@@ -118,6 +120,69 @@ export default {
                     this.getRoutesForEdit();
                 });
         },
+
+        setRoutesForCompare() {
+            this.initialRoutes = {
+                evening: _.cloneDeep(this.eveningRoutes),
+                morning: _.cloneDeep(this.morningRoutes),
+            }
+
+            this.normalizeTimeInRoutes(this.initialRoutes.evening);
+            this.normalizeTimeInRoutes(this.initialRoutes.morning);
+
+            this.routesAfterChange = {
+                evening: this.eveningRoutes,
+                morning: this.morningRoutes,
+            };
+
+            this.normalizeTimeInRoutes(this.routesAfterChange.evening);
+            this.normalizeTimeInRoutes(this.routesAfterChange.morning);
+        },
+
+        normalizeTimeInRoutes(routes) {
+            routes.forEach(route => route.scheduled_at = route.scheduled_at.slice(0, 5));
+        },
+
+
+        areRoutesChanged() {
+            console.log(JSON.parse(JSON.stringify(this.initialRoutes)));
+            console.log(JSON.parse(JSON.stringify(this.routesAfterChange)))
+            return !_.isEqual(
+                JSON.parse(JSON.stringify(this.initialRoutes)),
+                JSON.parse(JSON.stringify(this.routesAfterChange))
+            );
+        },
+
+
+        beforeUnloadHandler(event) {
+            if (this.areRoutesChanged()) {
+                event.preventDefault();
+                // Хром требует установки возвратного значения.
+                event.returnValue = '1';
+            }
+        },
+    },
+
+
+    created() {
+        this.setRoutesForCompare();
+        window.addEventListener('beforeunload', this.beforeUnloadHandler);
+    },
+
+
+    destroyed() {
+        window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+    },
+
+
+    beforeRouteLeave(to, from, next) {
+        let confirm = true;
+
+        if (this.areRoutesChanged()) {
+            confirm = window.confirm('Ты точно хочешь перейти на другую страницу,не сохранив маршруты? Изменения будут утеряны.');
+        }
+
+        next(confirm);
     },
 }
 </script>
