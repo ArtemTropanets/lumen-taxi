@@ -28,7 +28,8 @@
                     :routes="eveningRoutes"
                     :noRoutePersonsProp="noRouteEveningPersons"
                     @updateNoRoutePersons="updateNoRoutePersons"
-                    @add-route="addRoute"
+                    @append-new-route="appendNewRoute"
+                    @prepend-new-route="prependNewRoute"
                     @delete-route="deleteRoute"
                 />
             </div>
@@ -39,7 +40,8 @@
                     :routes="morningRoutes"
                     :noRoutePersonsProp="noRouteMorningPersons"
                     @updateNoRoutePersons="updateNoRoutePersons"
-                    @add-route="addRoute"
+                    @append-new-route="appendNewRoute"
+                    @prepend-new-route="prependNewRoute"
                     @delete-route="deleteRoute"
                 />
             </div>
@@ -99,12 +101,24 @@ export default {
             this[`noRoute${capitalizeFirstLetter(type)}Persons`] = newVal;
         },
 
-        addRoute(type) {
-            this[`${type}Routes`].push({
+        createRoute(type) {
+            return {
                 type: (type === 'evening') ? 'evening' : 'morning',
                 scheduled_at: (type === 'evening') ? '18:10' : '08:30',
                 persons: [],
-            });
+            };
+        },
+
+        appendNewRoute(type) {
+            this[`${type}Routes`].push(
+                this.createRoute(type)
+            );
+        },
+
+        prependNewRoute(type) {
+            this[`${type}Routes`].unshift(
+                this.createRoute(type)
+            );
         },
 
         deleteRoute(type, index) {

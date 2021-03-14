@@ -35,6 +35,16 @@
             </draggable>
         </div>
 
+        <div
+            v-if="routes.length"
+            class="d-flex justify-content-center mt-2"
+        >
+            <button
+                class="btn btn-sm btn-primary"
+                @click="$emit('prepend-new-route', type)"
+            >Добавить маршрут</button>
+        </div>
+
         <transition-group name="fade">
             <div
                 v-for="(route, index) in routes"
@@ -106,7 +116,7 @@
         <div class="d-flex justify-content-center mt-2">
             <button
                 class="btn btn-sm btn-primary"
-                @click="$emit('add-route', type)"
+                @click="$emit('append-new-route', type)"
             >Добавить маршрут</button>
         </div>
 
