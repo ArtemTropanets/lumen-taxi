@@ -30,8 +30,10 @@ class RouteController extends Controller
             ->get();
 
         $today_address_persons = Person::where('address_update_date', Carbon::today())
-            ->whereNotNull('morning_address')
-            ->orWhereNotNull('evening_address')
+            ->where(function ($query) {
+                $query->whereNotNull('morning_address')
+                    ->orWhereNotNull('evening_address');
+            })
             ->get();
 
 
