@@ -12,7 +12,7 @@
 
 
         <div class="d-flex h-100">
-            <div style="width: 280px; margin-right: 10px;">
+            <div style="width: 300px; margin-right: 10px;">
                 <AddressesListInMapModal
                     :notFoundAddresses="notFoundAddresses"
                     :notFoundAddressesAssoc="notFoundAddressesAssoc"
