@@ -36,18 +36,17 @@ class RouteService
     {
         $routes = Route::all();
 
-        $route_person_pivot = DB::table('route_person')
-            ->get();
+        $persons_order_by_route_id = DB::table('route_person')
+            ->get()
+            ->groupBy('route_id');
 
-        $today_address_persons = Person::where('address_update_date', Carbon::today())
+        $today_address_persons_by_id = Person::where('address_update_date', Carbon::today())
             ->where(function ($query) {
                 $query->whereNotNull('morning_address')
                     ->orWhereNotNull('evening_address');
             })
-            ->get();
-
-        $persons_order_by_route_id = $route_person_pivot->groupBy('route_id');
-        $today_address_persons_by_id = $today_address_persons->keyBy('id');
+            ->get()
+            ->keyBy('id');
 
         $routes->each(function ($route) use ($persons_order_by_route_id, $today_address_persons_by_id) {
             $route->persons = collect();
