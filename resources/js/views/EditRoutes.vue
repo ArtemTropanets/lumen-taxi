@@ -145,8 +145,6 @@ export default {
 
 
         areRoutesChanged() {
-            console.log(JSON.parse(JSON.stringify(this.initialRoutes)));
-            console.log(JSON.parse(JSON.stringify(this.routesAfterChange)))
             return !_.isEqual(
                 JSON.parse(JSON.stringify(this.initialRoutes)),
                 JSON.parse(JSON.stringify(this.routesAfterChange))
