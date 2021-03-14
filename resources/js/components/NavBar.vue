@@ -17,17 +17,17 @@
 
             <div style="margin-left: -75px;">
                 <a
-                    href="https://www.google.com.ua/maps/"
-                    class="btn btn-secondary"
-                    target="_blank"
-                    style="width: 160px;"
-                >Google Maps</a>
-                <a
                     href="https://2gis.ua/odessa"
                     class="btn btn-secondary"
                     target="_blank"
                     style="width: 160px"
                 >2GIS</a>
+                <a
+                    href="https://www.google.com.ua/maps/"
+                    class="btn btn-secondary"
+                    target="_blank"
+                    style="width: 160px;"
+                >Google Maps</a>
             </div>
 
             <ul class="nav nav-pills">
