@@ -1,9 +1,22 @@
 <template>
     <div>
-        <div class="d-flex justify-content-center position-relative">
+        <div class="position-fixed pt-2 shadow-sm"
+             style="top: 56px; right: 0; left: 0; background-color: white; z-index: 5"
+        >
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 class="text-center">Вечер</h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="text-center">Утро</h4>
+                    </div>
+                </div>
+            </div>
+
             <button
                 class="btn btn-success position-absolute"
-                style="top: 5px;"
+                style="top: 5px; left: 50%; transform: translateX(-50%)"
                 @click="saveRoutes"
             >Сохранить маршруты</button>
         </div>

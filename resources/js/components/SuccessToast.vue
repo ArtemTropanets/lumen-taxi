@@ -1,6 +1,7 @@
 <template>
     <div class="container position-fixed top-0"
          style="z-index: 10000; left: 50%; transform: translateX(-50%)"
+         :class="{'hidden-success-toast': !showing}"
     >
         <div
             class="success-toast toast d-flex align-items-center position-absolute top-0 end-50 text-white bg-success border-0"
@@ -63,3 +64,10 @@ export default {
     }
 }
 </script>
+
+
+<style>
+.hidden-success-toast {
+    visibility: hidden;
+}
+</style>

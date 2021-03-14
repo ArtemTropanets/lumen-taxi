@@ -4,9 +4,12 @@
 namespace App\Services;
 
 
+use App\Models\Person;
 use App\Models\Route;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class RouteService
 {
@@ -29,9 +32,19 @@ class RouteService
     }
 
 
-    public function getTodayRoutes(Collection $route_person_pivot, Collection $today_address_persons): Collection
+    public function getTodayRoutes(): Collection
     {
         $routes = Route::all();
+
+        $route_person_pivot = DB::table('route_person')
+            ->get();
+
+        $today_address_persons = Person::where('address_update_date', Carbon::today())
+            ->where(function ($query) {
+                $query->whereNotNull('morning_address')
+                    ->orWhereNotNull('evening_address');
+            })
+            ->get();
 
         $persons_order_by_route_id = $route_person_pivot->groupBy('route_id');
         $today_address_persons_by_id = $today_address_persons->keyBy('id');
@@ -55,28 +68,5 @@ class RouteService
             return $route->persons->isEmpty();
         })
             ->groupBy('type');
-    }
-
-
-    public function getNoRoutePersons(Collection $route_person_pivot, Collection $today_address_persons): Collection
-    {
-        $persons_ids_having_route_assoc = $route_person_pivot->keyBy('person_id');
-
-        $no_route_persons = collect([
-            'evening' => collect(),
-            'morning' => collect(),
-        ]);
-
-        $today_address_persons->each(function ($person) use ($no_route_persons, $persons_ids_having_route_assoc) {
-            if (isset($persons_ids_having_route_assoc[$person->id])) return;
-
-            foreach ($no_route_persons as $type => $collection) {
-                if (!empty($person["{$type}_address"])) {
-                    $collection->push($person);
-                }
-            }
-        });
-
-        return $no_route_persons;
     }
 }

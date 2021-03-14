@@ -15,6 +15,21 @@
                 </li>
             </ul>
 
+            <div style="margin-left: -75px;">
+                <a
+                    href="https://www.google.com.ua/maps/"
+                    class="btn btn-secondary"
+                    target="_blank"
+                    style="width: 160px;"
+                >Google Maps</a>
+                <a
+                    href="https://2gis.ua/odessa"
+                    class="btn btn-secondary"
+                    target="_blank"
+                    style="width: 160px"
+                >2GIS</a>
+            </div>
+
             <ul class="nav nav-pills">
                 <li>
                     <router-link
@@ -24,11 +39,6 @@
                     >Сотрудники</router-link>
                 </li>
             </ul>
-
-<!--            <button-->
-<!--                class="btn btn-primary"-->
-<!--                @click="$eventBus.$emit('show-create-edit-person-modal', 'create')"-->
-<!--            >Добавить сотрудника</button>-->
         </div>
     </nav>
 </template>

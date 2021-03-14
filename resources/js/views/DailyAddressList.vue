@@ -1,21 +1,5 @@
 <template>
     <div class="person-table-container">
-        <div class="d-flex justify-content-center"
-             style="padding: 5px;"
-        >
-            <a
-                href="https://www.google.com.ua/maps/"
-                class="btn btn-secondary"
-                target="_blank"
-                style="width: 160px; margin-right: 40px;"
-            >Google Maps</a>
-            <a
-                href="https://2gis.ua/odessa"
-                class="btn btn-secondary"
-                target="_blank"
-                style="width: 160px"
-            >2GIS</a>
-        </div>
         <table class="person-table">
             <thead>
                 <tr>

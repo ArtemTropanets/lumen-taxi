@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <h4 class="text-center mt-1 mb-3">{{ title }}</h4>
-
+    <div class="mt-5">
         <div v-if="noRoutePersons.length"
              class="pb-1 rounded-2 overflow-hidden"
              style="border: 1px solid red"
