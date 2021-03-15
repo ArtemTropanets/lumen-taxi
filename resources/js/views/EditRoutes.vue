@@ -9,6 +9,12 @@
                         <h4 class="text-center">Вечер</h4>
                     </div>
                     <div class="col-6">
+<!--                        <div class="float-end">-->
+<!--                            <div class="form-check form-switch cursor-pointer">-->
+<!--                                <input class="form-check-input cursor-pointer" type="checkbox" id="flexSwitchCheckDefault">-->
+<!--                                <label class="form-check-label cursor-pointer" for="flexSwitchCheckDefault">ololo</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <h4 class="text-center">Утро</h4>
                     </div>
                 </div>
