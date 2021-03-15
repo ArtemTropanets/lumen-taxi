@@ -14,7 +14,9 @@
                             v-show="printScreenMode"
                             class="position-absolute end-50 btn btn-primary"
                             style="transform: translateX(50%)"
-                            @click="copyRoutesImgToClipboard('evening')"
+                            @mouseover="highlightEveningRoutes = true"
+                            @mouseleave="highlightEveningRoutes = false"
+                            @click="highlightMorningRoutes = false; copyRoutesImgToClipboard('evening')"
                         >Сделать скриншот</button>
                     </div>
                     <div class="col-6 position-relative">
@@ -36,7 +38,9 @@
                             v-show="printScreenMode"
                             class="position-absolute end-50 btn btn-primary"
                             style="transform: translateX(50%)"
-                            @click="copyRoutesImgToClipboard('morning')"
+                            @mouseover="highlightMorningRoutes = true"
+                            @mouseleave="highlightMorningRoutes = false"
+                            @click="highlightMorningRoutes = false; copyRoutesImgToClipboard('morning')"
                         >Сделать скриншот</button>
                     </div>
                 </div>
@@ -55,6 +59,7 @@
                     title="Вечер"
                     type="evening"
                     :print-screen-mode="printScreenMode"
+                    :highlight-routes="highlightEveningRoutes"
                     :routes="eveningRoutes"
                     :noRoutePersonsProp="noRouteEveningPersons"
                     @updateNoRoutePersons="updateNoRoutePersons"
@@ -68,6 +73,7 @@
                     title="Утро"
                     type="morning"
                     :print-screen-mode="printScreenMode"
+                    :highlight-routes="highlightMorningRoutes"
                     :routes="morningRoutes"
                     :noRoutePersonsProp="noRouteMorningPersons"
                     @updateNoRoutePersons="updateNoRoutePersons"
@@ -104,6 +110,8 @@ export default {
     data() {
         return {
             printScreenMode: false,
+            highlightEveningRoutes: false,
+            highlightMorningRoutes: false,
             eveningRoutes: this.routesProp.evening_routes,
             morningRoutes: this.routesProp.morning_routes,
             noRouteEveningPersons: this.routesProp.no_route_evening_persons,
@@ -246,26 +254,28 @@ export default {
 
         copyRoutesImgToClipboard(type) {
             this.$eventBus.$emit('show-loader');
-            setTimeout(() => {
-                try {
-                    html2canvas(document.getElementById(`capture_${type}`)).then(canvas => {
-                        canvas.toBlob((blob) => {
-                            const item = new ClipboardItem({ "image/png": blob });
-                            navigator.clipboard.write([item])
-                                .then(() => {
-                                    this.$eventBus.$emit('show-success-toast');
-                                })
-                                .catch(error => {
-                                    console.dir(error);
-                                    alert('Error');
-                                })
-                                .finally(() => this.$eventBus.$emit('show-loader', false));
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    try {
+                        html2canvas(document.getElementById(`capture_${type}`)).then(canvas => {
+                            canvas.toBlob((blob) => {
+                                const item = new ClipboardItem({ "image/png": blob });
+                                navigator.clipboard.write([item])
+                                    .then(() => {
+                                        this.$eventBus.$emit('show-success-toast');
+                                    })
+                                    .catch(error => {
+                                        console.dir(error);
+                                        alert('Error');
+                                    })
+                                    .finally(() => this.$eventBus.$emit('show-loader', false));
+                            });
                         });
-                    });
-                } catch {
-                    this.$eventBus.$emit('show-loader', false);
-                }
-            }, 100);
+                    } catch {
+                        this.$eventBus.$emit('show-loader', false);
+                    }
+                }, 100);
+            });
         },
     },
 }
