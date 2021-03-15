@@ -1,6 +1,6 @@
 <template>
     <div class="person-table-container">
-        <table class="person-table">
+        <table class="person-table container">
             <thead>
                 <tr>
                     <th class="text-center">Сотрудник</th>

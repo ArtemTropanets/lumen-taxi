@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <div class="position-fixed pt-2 shadow-sm"
              style="top: 56px; right: 0; left: 0; background-color: white; z-index: 5"
         >

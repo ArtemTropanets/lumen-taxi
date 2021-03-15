@@ -56,7 +56,7 @@
 
                             <button
                                 type="button"
-                                class="btn btn-primary"
+                                class="btn btn-success"
                                 @click="saveHandler"
                             >Сохранить</button>
                         </div>
