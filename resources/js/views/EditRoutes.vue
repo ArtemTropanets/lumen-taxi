@@ -103,6 +103,7 @@ export default {
 
         createRoute(type) {
             return {
+                id: Date.now(),
                 type: (type === 'evening') ? 'evening' : 'morning',
                 scheduled_at: (type === 'evening') ? '18:10' : '08:30',
                 persons: [],

@@ -8,7 +8,7 @@
             <thead>
             <tr>
                 <th class="text-center">Сотрудник</th>
-                <th>Телефон</th>
+                <th class="text-center">Телефон</th>
                 <th class="text-center">Домашний адрес вечер</th>
                 <th class="text-center">Домашний адрес утро</th>
                 <th colspan="2" style="text-align: right;">

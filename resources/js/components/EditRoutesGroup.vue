@@ -21,10 +21,10 @@
                     :key="person.id"
                     class="route-table__row"
                 >
-                    <td>
+                    <td class="p-1">
                         <CopyBtn
                             :phone="person.phone"
-                            :tooltip-html="`Скопировать <div>номер</div> <div style='max-width: 95px'>${person.phone}</div>`"
+                            :tooltip-html="person.phone ? `Скопировать <div>номер</div> <div style='max-width: 95px'>${person.phone}</div>` : 'Номер <div> не сохранен</div>'"
                             position="left"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-teletext-fill" viewBox="0 0 16 16">
@@ -64,7 +64,7 @@
         <transition-group name="fade">
             <div
                 v-for="(route, index) in routes"
-                :key="index"
+                :key="route.id"
                 class="mt-2 pb-1 rounded-2"
                 style="border: 1px solid #bdbdbd;"
             >
@@ -113,10 +113,10 @@
                         :key="person.id"
                         class="route-table__row"
                     >
-                        <td>
+                        <td class="p-1">
                             <CopyBtn
                                 :text="person.phone"
-                                :tooltip-html="`Скопировать <div>номер</div> <div style='max-width: 95px'>${person.phone}</div>`"
+                                :tooltip-html="person.phone ? `Скопировать <div>номер</div> <div style='max-width: 95px'>${person.phone}</div>` : 'Номер <div> не сохранен</div>'"
                                 position="left"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-teletext-fill" viewBox="0 0 16 16">
