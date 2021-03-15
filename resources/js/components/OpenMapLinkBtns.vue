@@ -1,5 +1,5 @@
 <template>
-    <div class="d-inline-block">
+    <div style="display: inline-block;">
         <button
             class="btn btn-secondary btn-sm text-dark bg-light"
             style="
