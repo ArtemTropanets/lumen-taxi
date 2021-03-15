@@ -29,8 +29,6 @@
 </template>
 <script>
 export default {
-    name: 'AddressListInputGroupBtn',
-
     props: {
         isHoveringObj: Object,
         person: Object,

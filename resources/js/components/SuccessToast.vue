@@ -16,8 +16,6 @@
 </template>
 <script>
 export default {
-    name: 'SuccessToast',
-
     data() {
         return {
             toast: null,

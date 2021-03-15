@@ -15,9 +15,6 @@
 </template>
 <script>
 export default {
-    name: 'FormControlInput',
-
-
     props: {
         value: String,
         label: String,
