@@ -22,13 +22,29 @@
                     class="route-table__row"
                 >
                     <td>
-                        <CopyPhoneBtn
+                        <CopyBtn
                             :phone="person.phone"
-                        />
+                            :tooltip-html="`Скопировать <div>номер</div> <div style='max-width: 95px'>${person.phone}</div>`"
+                            position="left"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-teletext-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                            </svg>
+                        </CopyBtn>
                     </td>
                     <td class="col-5 p-1">{{ person.name }}</td>
                     <td class="col-7 p-1">
                         <OpenMapLinkBtns :address="person[`${type}_address`]"/>
+                        <CopyBtn
+                            :text="person[`${type}_address`]"
+                            tooltip-html="Скопировать адрес"
+                            position="right"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                        </CopyBtn>
                         {{ person[`${type}_address`] }}
                     </td>
                 </tr>
@@ -98,14 +114,34 @@
                         class="route-table__row"
                     >
                         <td>
-                            <CopyPhoneBtn
-                                :phone="person.phone"
-                            />
+                            <CopyBtn
+                                :text="person.phone"
+                                :tooltip-html="`Скопировать <div>номер</div> <div style='max-width: 95px'>${person.phone}</div>`"
+                                position="left"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-teletext-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                                </svg>
+                            </CopyBtn>
                         </td>
                         <td class="col-5 p-1">{{ person.name }}</td>
                         <td class="col-7 p-1">
-                            <OpenMapLinkBtns :address="person[`${type}_address`]"/>
-                            {{ person[`${type}_address`] }}
+                            <div>
+                                <OpenMapLinkBtns :address="person[`${type}_address`]"/>
+                                <CopyBtn
+                                    :text="person[`${type}_address`]"
+                                    tooltip-html="Скопировать адрес"
+                                    position="right"
+                                    class="float-end"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+                                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                                    </svg>
+                                </CopyBtn>
+                                {{ person[`${type}_address`] }}
+                            </div>
+
                         </td>
                     </tr>
                 </draggable>
@@ -125,12 +161,12 @@
 <script>
 import draggable from 'vuedraggable';
 import VueTimepicker from 'vue2-timepicker/src/vue-timepicker';
-import CopyPhoneBtn from "./CopyPhoneBtn";
 import OpenMapLinkBtns from "./OpenMapLinkBtns";
+import CopyBtn from "./CopyBtn";
 
 export default {
     components: {
-        CopyPhoneBtn,
+        CopyBtn,
         OpenMapLinkBtns,
         draggable,
         VueTimepicker,
@@ -174,7 +210,7 @@ export default {
     methods: {
         showRouteMap(route) {
             const addresses = route.persons.map(person => {
-                return person[`${this.type}_address`]
+                return person[`${this.type}_address`];
             });
 
             this.$eventBus.$emit('show-route-map-modal', addresses, this.type);
